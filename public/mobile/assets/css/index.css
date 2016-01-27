@@ -1,0 +1,32 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { 
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    overflow: hidden;
+ }
+
+.waiting {
+	background-image: url('../img/waiting.jpg');
+	background-size: 100% 100%;
+	width: 	100%;
+	height: 100%;
+}
+
+.user_content {
+	text-align: center;
+}
+
+.user_avatar1 {
+	position: relative;
+	margin: 2% auto;
+    width: 165px;
+    height: 155px;
+	border-radius: 5px;
+}
+
+.user_name {
+
+}
