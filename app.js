@@ -32,7 +32,6 @@ io.use(function (socket, next) {
 })
 
 var regist = function(socket) {
-	console.log("=====begin in regist=====");
 	socket.on("regist", function (userInfo) {
 		onlineUserCount++;
 		console.log("Regist User -> " + userInfo.FullName);

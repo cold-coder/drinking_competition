@@ -1,7 +1,8 @@
 $(document).ready(function(){
 
 	var config = {
-		gameWS: "http://127.0.0.1:8087/",//http://srdemo.smartac.co:8087
+		gameWS: "http://172.16.5.65:8087/",//test
+		// gameWS: "http://demowifi.smartac.co:8087/",//prd
 		accountId: "gh_4ffca3361cb7", //微信公众号ID
 		srapiurl: "http://srdemo.smartac.co/api/", //SR API地址前缀
         };
@@ -21,8 +22,8 @@ $(document).ready(function(){
 		return openid;
 	}
 
-	var openid = getWeixinOpenId(); //for production
-	// var openid = "oNPMJj9yw5SNuNDNQvJAh7nvvxbE"; //only for testing
+	// var openid = getWeixinOpenId(); //for production
+	var openid = "oNPMJj9yw5SNuNDNQvJAh7nvvxbE"; //only for testing
 	var userInfo = {};
 	var socket = io(config.gameWS, { query:"role=competitor"});
 
@@ -34,13 +35,14 @@ $(document).ready(function(){
 
 	socket.on("regist",  function(user){
     	if(user.userCount ==1) {
-    		// $(".step").hide();
-    		// $(".step1").show();
-    		$(".user_avatar1").prop("src", user.userInfo.HeadPortrait);
-    		$(".user_name").text(user.userInfo.FullName);
+    		$(".step").hide();
+    		$(".step1").show();
     	} else if (user.userCount == 2) {
+    		//start countdown
     		console.log("Let's countdown!");
-
+    		$(".step1").hide();
+    		$(".step2").show();
+			$(".step2").addClass("ani-countdown");
     	}
     })
 

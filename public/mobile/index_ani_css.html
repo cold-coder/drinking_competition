@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>啤酒比赛</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="assets/css/index.css">
+    <style type="text/css">
+        @keyframes countdown {
+            20% {
+                background-image: url('./assets/img/countdown3.jpg');
+            }
+            40% {
+                background-image: url('./assets/img/countdown2.jpg');
+            }
+            60% {
+                background-image: url('./assets/img/countdown1.jpg');
+            }
+            80% {
+                background-image: url('./assets/img/countdown_go.jpg');
+            }
+            100% {
+                background-image: url('./assets/img/in_game.jpg');
+            }
+        }
+
+        .ani-countdown {
+            animation-name: countdown;
+            animation-duration: 7s;
+            animation-timing-function: ease-out;
+            animation-fill-mode: forwards;
+        }
+    </style>
+  </head>
+  <body>
+    <section class="step step1 ani-countdown">
+      <div class="user_content">
+      </div>
+    </section>
+    <script src="assets/vendor/jquery.js"></script>
+
+	<script>
+
+	</script>
+  </body>
+</html>

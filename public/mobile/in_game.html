@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>啤酒比赛</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="assets/css/index.css">
+    <style type="text/css">
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { 
+        position: relative;
+        height: 100%;
+        width: 100%;
+        max-width: 540px;
+        margin: 0 auto;
+        overflow: hidden;
+     }
+        .step_in_game {
+      background-image: url('./assets/img/in_game_bg.jpg');
+    }
+    .wheel {
+      position: fixed;
+      background-image: url('./assets/img/wheel.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      top: 48%;
+      left:50%;
+      margin-left: -150px;
+      margin-top: -150px;
+      width: 300px;
+      height: 300px;
+/*      animation-name: rolling;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-duration: 4s;*/
+    }
+        @keyframes rolling {
+            from {
+                transform: rotate(-180deg);
+            }
+
+            to {
+                transform: rotate(180deg);
+            }
+        }
+
+
+    .hand {
+      position: fixed;
+      background-image: url('./assets/img/shake_hand.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      top: 36%;
+      left: 50%;
+      margin-left: -75px;
+      width: 150px;
+      height: 150px;
+      animation-name: shake;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease;
+      animation-duration: .5s;
+    }
+        @keyframes shake {
+            0% {
+                transform: rotate(-30deg);
+            }
+            50% {
+                transform: rotate(30deg);
+            }
+            100% {
+                transform: rotate(-30deg);
+            }
+        }
+    </style>
+  </head>
+  <body>
+    <section class="step step_in_game">
+      <div class="wheel">
+          <!-- <img src="./assets/img/wheel.png"> -->
+      </div>
+      <div class="hand"></div>
+    </section>
+    <script src="assets/vendor/jquery.js"></script>
+	<script>
+
+	</script>
+  </body>
+</html>

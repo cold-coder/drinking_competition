@@ -8,13 +8,50 @@ html, body {
     overflow: hidden;
  }
 
-.waiting {
-	background-image: url('../img/waiting.jpg');
+.hide {
+	display: none;
+}
+
+.qr_demowifi {
+	width: 300px;
+	height: 300px;
+	margin: 2% auto;
+	border-radius: 5px;
+}
+
+.step {
 	background-size: 100% 100%;
 	width: 	100%;
 	height: 100%;
 }
 
+.step1 {
+	background-image: url('../img/waiting.jpg');
+}
+
+.step2 {
+	background-image: url('../img/countdown3.jpg');
+}
+
+.step3 {
+	background-image: url('../img/countdown2.jpg');
+}
+
+.step4 {
+	background-image: url('../img/countdown1.jpg');
+}
+
+.step5 {
+	background-image: url('../img/countdown_go.jpg');
+}
+
+.step6 {
+	background-image: url('../img/in_game.jpg');
+}
+
+.step7 {
+	background-image: url('../img/win.jpg');
+}
 .user_content {
 	text-align: center;
 }
@@ -29,4 +66,29 @@ html, body {
 
 .user_name {
 
+}
+
+@keyframes countdown {
+    20% {
+        background-image: url('../img/countdown3.jpg');
+    }
+    40% {
+        background-image: url('../img/countdown2.jpg');
+    }
+    60% {
+        background-image: url('../img/countdown1.jpg');
+    }
+    80% {
+        background-image: url('../img/countdown_go.jpg');
+    }
+    100% {
+        background-image: url('../img/in_game.jpg');
+    }
+}
+
+.ani-countdown {
+    animation-name: countdown;
+    animation-duration: 7s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
