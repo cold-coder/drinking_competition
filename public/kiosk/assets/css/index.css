@@ -1,4 +1,93 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font: 13px Helvetica, Arial; }
 
+.kiosk-wrap {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  margin: 0 auto;
+  overflow: hidden;
+
+}
+
+.ad {
+	position: absolute;
+	width: 100%;
+	height: 280px;
+	bottom: 0;
+	background-image: url('../img/ad.jpg');
+}
+
+section[class^="step"] {
+	width: 100%;
+	height: 1640px;
+}
+
+.poster {
+  	background: url('../img/poster.jpg') no-repeat;
+ 	background-size: 100% 100%;	
+}
+
+.waiting {
+	position: relative;
+	background: url('../img/waiting.jpg') no-repeat;
+	background-size: 100% 100%;
+}
+
+.container > .avatar {
+	position: absolute;
+    top: 710px;
+    left: 337px;
+    width: 170px;
+    height: 164px;
+    border-radius: 5px;
+    background-size: cover;
+}
+
+.container > .nickname {
+    position: absolute;
+    top: 880px;
+    left: 337px;
+    width: 170px;
+    height: 39px;
+    border-radius: 6px;
+    text-align: center;
+    display: table;
+}
+
+.container > .nickname > .nickname_txt {
+	font-size: 25px;
+    font-weight: bold;
+    vertical-align: middle;
+    display: table-cell;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@keyframes countdown {
+    20% {
+        background-image: url('../img/countdown3.jpg');
+    }
+    40% {
+        background-image: url('../img/countdown2.jpg');
+    }
+    60% {
+        background-image: url('../img/countdown1.jpg');
+    }
+    80% {
+        background-image: url('../img/countdown_go.jpg');
+    }
+}
+
+.ani-countdown {
+    animation-name: countdown;
+    animation-duration: 7s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.stage {
+  	background: url('../img/stage.jpg') no-repeat;
+ 	background-size: 100% 100%;
+}
 
