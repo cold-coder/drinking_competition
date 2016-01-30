@@ -1,10 +1,11 @@
 $(document).ready(function(){
 
 	var config = {
-		gameWS: "http://172.16.5.65:8087/",//test
+		// gameWS: "http://172.16.5.65:8087/",//test
+		gameWS: "http://192.168.31.104:8087/",//test
 		// gameWS: "http://demowifi.smartac.co:8087/",//prd
-		accountId: "gh_4ffca3361cb7", //微信公众号ID
-		srapiurl: "http://srdemo.smartac.co/api/", //SR API地址前缀
+		accountId: "gh_4ffca3361cb7", //WeChat account ID
+		srapiurl: "http://srdemo.smartac.co/api/", //SR API
         };
 	//extract openid from url
 	function getWeixinOpenId() {

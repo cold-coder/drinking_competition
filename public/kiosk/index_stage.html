@@ -133,7 +133,45 @@
     <div class="ad"></div>
   </div>
     <script src="assets/vendor/jquery.js"></script>
+    <script src="assets/vendor/velocity.min.js"></script>
+    <script src="assets/vendor/velocity.ui.min.js"></script>
+    
 	<script>
+  $(".role_left").velocity({
+    backgroundImage: './assets/img/left_role_2.png'
+  },{
+    duration: 100,
+    loop: true
+  });
+
+  var beerDrinkUp = {
+    p: {
+      opacity: 0,
+      top:0
+    },
+    o: {
+      duration: 400,
+      easing: "linear"
+    }
+  }
+
+  var drinkUp = function(e) {
+    e.velocity(beerDrinkUp.p, beerDrinkUp.o)
+  }
+
+  // drinkUp($(".beer_left_1"));
+  // $(".beer_left_1").velocity(beerDrinkUp.p, beerDrinkUp.o);
+
+  var loadingSequence = [
+  { e: $(".beer_left_1"), p: beerDrinkUp.p, o: beerDrinkUp.o},
+  { e: $(".beer_left_2"), p: beerDrinkUp.p, o: beerDrinkUp.o},
+  { e: $(".beer_left_3"), p: beerDrinkUp.p, o: {duration: 400, easing: "linear",sequenceQueue:false}},
+  { e: $(".beer_left_4"), p: beerDrinkUp.p, o: beerDrinkUp.o},
+  { e: $(".beer_left_5"), p: beerDrinkUp.p, o: beerDrinkUp.o},
+  { e: $(".beer_left_6"), p: beerDrinkUp.p, o: beerDrinkUp.o}
+  ]
+
+  $.Velocity.RunSequence(loadingSequence);
 	</script>
   </body>
 </html>
