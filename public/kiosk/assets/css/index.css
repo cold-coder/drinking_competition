@@ -136,8 +136,156 @@ section.countdown > div {
     background-image: url('../img/countdown_go.jpg');
 }*/
 
+/*in game*/
 .stage {
   	background: url('../img/stage.jpg') no-repeat;
  	background-size: 100% 100%;
 }
 
+.stage_container {
+      position: relative;
+      top: 304px;
+      margin: 20px auto;
+
+      opacity: 0.8;
+      width: 1033px;
+      height: 845px;
+}
+
+.score_bar {
+  position: absolute;
+  width: 407px;
+  height: 108px;
+  top: 50px;
+  background-image: url('../img/score_bar.png');
+  background-repeat: no-repeat;
+  transform: scale(0.8); 
+}
+
+.score_bar_left {
+  left: 70px;
+}
+
+.score_bar_right {
+  right: 70px;
+}
+
+div[class^="avatar"] {
+  position: absolute;
+  width: 71px;
+  height: 70px;
+  top: 16px;
+  border-radius: 50px 70px;
+  background: url('../img/avatar_blank.png') no-repeat;
+  background-size: cover;
+}
+
+.avatar_left {
+  left: 20px;
+}
+
+.avatar_right {
+  right: 316px;
+}
+
+.vs {
+  position: absolute;
+  top: 60px;
+  left: 470px;
+  width: 96px;
+  height: 83px;
+  background: url('../img/vs.png') no-repeat;
+}
+
+
+.role_left {
+  position: absolute;
+  top: 205px;
+  left: 170px;
+  background-image: url('../img/left_role_1.png');
+  background-repeat: no-repeat;
+  width:271px;
+  height: 505px;
+}
+.role_right {
+  position: absolute;
+  top: 205px;
+  right: 170px;
+  background-image: url('../img/right_role_1.png');
+  background-repeat: no-repeat;
+  width:353px;
+  height: 490px;
+}
+div[class^="barrel_"] {
+  position: absolute;
+  background: url('../img/barrel.png') no-repeat;
+  width: 300px;
+  height: 396px;
+  z-index: 50;
+  top: 527px;
+}
+.barrel_left {
+  left: 150px;
+}
+.barrel_right {
+  right: 190px;
+}
+div[class^="beer"] {
+  position: absolute;
+  background: url('../img/beer_cup.png') no-repeat;
+  width: 59px;
+  height: 93px;
+  transform: scale(1.1);
+}
+.level_1 {
+  top: 380px;
+  z-index: 300;
+}
+.beer_left_1 {
+  left: 275px;
+}
+.beer_right_1 {
+  right: 295px;
+}
+.level_2 {
+  top: 445px;
+  z-index: 250;
+}
+.beer_left_2 {
+  left: 250px;
+}
+.beer_right_2 {
+  right: 270px;
+}
+.beer_left_3 {
+  left: 310px;
+}
+.beer_right_3 {
+  right: 330px;
+}
+.level_3 {
+  top: 510px;
+  z-index: 200;      
+}
+.beer_left_4 {
+  left: 220px;
+}
+.beer_left_5 {
+  top: 525px;
+  left: 275px;
+  z-index: 225;
+}
+.beer_left_6 {
+  left: 330px;
+}
+.beer_right_4 {
+  right: 355px;
+}
+.beer_right_5 {
+  top: 530px;
+  right: 300px;
+  z-index: 225;
+}
+.beer_right_6 {
+  right: 250px;
+}

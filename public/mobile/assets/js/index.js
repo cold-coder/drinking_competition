@@ -1,8 +1,9 @@
 $(document).ready(function(){
 
 	var config = {
-		// gameWS: "http://172.16.5.65:8087/",//test
-		gameWS: "http://192.168.31.101:8087/",//test
+		// gameWS: "http://172.16.5.65:8087/",//test Smartac
+		gameWS: "http://192.168.31.104:8087/",//test iMac
+		// gameWS: "http://192.168.31.101:8087/",//test Laptop
 		// gameWS: "http://demowifi.smartac.co:8087/",//prd
 		accountId: "gh_4ffca3361cb7", //WeChat account ID
 		srapiurl: "http://srdemo.smartac.co/api/", //SR API
@@ -29,6 +30,34 @@ $(document).ready(function(){
 	var socket = io(config.gameWS, { query:"role=competitor"});
 
 	// socket.emit("regist", {HeadPortrait:"myAvatar.png", FullName: "usr_" + (new Date()).getTime().toString().slice(-5)});
+
+	//define event handler for shake
+	var SHAKE_THRESHOLD = 3000;
+	var last_update = 0;
+	var last_x = last_y = last_z = 0;
+	function deviceMotionHandler(eventData) {
+	    var acceleration = eventData.accelerationIncludingGravity;
+	    var curTime = new Date().getTime();
+	 
+	 	if ((curTime - last_update) > 100) {
+	    var diffTime = curTime - last_update;
+	    last_update = curTime;
+	        x = acceleration.x;
+	        y = acceleration.y;
+	        z = acceleration.z;
+	        var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+	        if (speed > SHAKE_THRESHOLD) {
+	            uploadSpeed(speed);
+	        }
+	        last_x = x;
+	        last_y = y;
+	        last_z = z;
+	    }
+	}
+	function uploadSpeed(speed){
+		// document.querySelector('#messages').innerHTML = parseInt(speed);
+		socket.emit("score", {id: userInfo.id, score: parseInt(speed)});
+	}
 
 	socket.on("room full", function() {
 		console.log("room is full");
@@ -105,6 +134,13 @@ $(document).ready(function(){
     	console.log("Game starts")
     	$(".step3").hide();
     	$(".step4").show();
+
+    	//turn on event listen for device motion
+		if (window.DeviceMotionEvent) {
+		    window.addEventListener('devicemotion', deviceMotionHandler, false);
+		} else {
+		    alert('你的手机太差了，买个新的吧。');
+		}
     })
 	//now i can request the user 
 

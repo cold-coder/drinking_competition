@@ -5,6 +5,10 @@ $(document).ready(function(){
 		srapiurl: "http://srdemo.smartac.co/api/", //SR API地址前缀
     };
 
+    var onlinePlayers = []; //[{id:"f29e3ef1", headPortrait:"./img/fe.png", fullName:"tom"},{id:"i9oi8hhikj", headPortrait:"./img/ed.png", fullName:"jerry"}]
+    var playScore;
+    var TOTALSCORE = 100000;
+
     var socket = io(config.gameWS, { query:"role=judge"});
     socket.on("regist", function(players){
     	if(players.playersList.length ==1) {
@@ -20,6 +24,8 @@ $(document).ready(function(){
             $(".avatar_right").css("background-image", "url(" + players.playersList[1].headPortrait + ")");
             $(".nickname_txt_right").text(players.playersList[1].fullName);
 
+            //store player info to local
+            onlinePlayers = players.playersList;
     		//begin countdown
 
             setTimeout(function(){
@@ -29,7 +35,7 @@ $(document).ready(function(){
 
             setTimeout(function(){
                 socket.emit("start");
-            }, 8000)
+            }, 6000)
             //display stage section after animation
             // setTimeout(function(){
             //     $(".step3").hide();
@@ -45,7 +51,59 @@ $(document).ready(function(){
     	$(".avatar*").prop("src","");
     });
 
+    socket.on("score", function(score) {
+        //{"tom": 12323487, "jerry": 52343432}
+        playScore = score;
+        updateScore(playScore)
+    })
+
+
+    function updateScore(score) {
+        var score_left = score[onlinePlayers[0].id];
+        var score_right = score[onlinePlayers[1].id];
+        clearBeerCup(score_left, "left");
+        clearBeerCup(score_right,"right")
+    }
+
+    //beer disappear animation
+      var beerDrinkUp = {
+        p: {
+          opacity: 0,
+          top:0
+        },
+        o: {
+          duration: 400,
+          easing: "linear"
+        }
+      }
+      var drinkUp = function(e) {
+        e.velocity(beerDrinkUp.p, beerDrinkUp.o)
+      }
+
+    function clearBeerCup (score, side) {
+        var scorePercent = score/TOTALSCORE;
+        console.log("score/TOTALSCORE-> "+scorePercent);
+        if(scorePercent > 0.2 || scorePercent < 0.4){
+            drinkUp($(".beer_"+side+"_1"));
+        }else if(scorePercent > 0.4 || scorePercent < 0.6){
+            drinkUp($(".beer_"+side+"_2"));
+        }else if(scorePercent > 0.6 || scorePercent < 0.8){
+            drinkUp($(".beer_"+side+"_3"));
+        }else if(scorePercent > 0.8 || scorePercent < 1){
+            drinkUp($(".beer_"+side+"_4"));
+        }else if(score/TOTALSCORE > 1.2){
+            drinkUp($(".beer_"+side+"_5"));
+        } else if(score/TOTALSCORE > 1.4){
+            drinkUp($(".beer_"+side+"_6"));
+            console.log("win");
+        }
+    }
+
     socket.on("start", function(){
         console.log("Game starts");
+        $(".step3").hide();
+        $(".step4").show();
+        $(".avatar_left").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
+        $(".avatar_right").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");        
     })
 })

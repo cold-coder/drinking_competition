@@ -15,12 +15,55 @@
       width: 1033px;
       height: 845px;
     }
+
+    .score_bar {
+      position: absolute;
+      width: 407px;
+      height: 108px;
+      top: 50px;
+      background-image: url('./assets/img/score_bar.png');
+      background-repeat: no-repeat;
+      transform: scale(0.8); 
+    }
+
+    .score_bar_left {
+      left: 70px;
+    }
+
+    .score_bar_right {
+      right: 70px;
+    }
+
+    div[class^="avatar"] {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      top: 20px;
+      background: url('./assets/img/avatar_blank.png') no-repeat;
+    }
+
+    .avatar_left {
+      left: 20px;
+    }
+
+    .avatar_right {
+      right: 316px;
+    }
+
+    .vs {
+      position: absolute;
+      top: 60px;
+      left: 470px;
+      width: 96px;
+      height: 83px;
+      background: url('./assets/img/vs.png') no-repeat;
+    }
+
     .role_left {
       position: absolute;
       top: 205px;
       left: 170px;
-      background-image: url('./assets/img/left_role_1.png');
-      background-repeat: no-repeat;
+      background: url('./assets/img/left_role_1.png') no-repeat;
       width:271px;
       height: 505px;
     }
@@ -33,6 +76,9 @@
       width:353px;
       height: 490px;
     }
+
+
+
     div[class^="barrel_"] {
       position: absolute;
       background: url('./assets/img/barrel.png') no-repeat;
@@ -112,6 +158,9 @@
   <div class="kiosk-wrap">
     <section class="step4 stage">
       <div class="stage_container">
+        <div class="score_bar score_bar_left"><div class="avatar_left"></div></div>
+        <div class="vs"></div>
+        <div class="score_bar score_bar_right"><div class="avatar_right"></div></div>
         <div class="role_left"></div>
         <div class="role_right"></div>
         <div class="barrel_left"></div>

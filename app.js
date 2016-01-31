@@ -9,6 +9,7 @@ app.use(express.static('public'));
 var hasJudge = false;
 // var onlineUserCount = 0;
 var onlinePlayers = [];
+var score = {};
 
 //game ws server
 
@@ -40,6 +41,7 @@ var regist = function(socket) {
 		// console.log("competitor enter the room, current competitor count " + onlineUserCount);
 		if(onlinePlayers.length <= 1) {
 			onlinePlayers.push(userInfo);
+			score[userInfo.id] = 0;
 			console.log("current players " + onlinePlayers.length);
 			io.emit("regist", {playersList:onlinePlayers});
 		} else {
@@ -54,7 +56,17 @@ var handleClient = function(socket) {
 
 	socket.on("start", function(){
 		console.log("Game starts");
+		score = {};
+		score[onlinePlayers[0].id] = 0;
+		score[onlinePlayers[1].id] = 0;
 		io.emit("start");
+	});
+
+	socket.on("score", function(scoreData) {
+		console.log(scoreData.id + " socres at " + scoreData.score);
+		score[scoreData.id] += scoreData.score;
+		console.log("score-> "+ JSON.stringify(score));
+		io.emit("score", score);
 	})
 
 	socket.on("disconnect", function (param1) {
