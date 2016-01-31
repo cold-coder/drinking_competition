@@ -7,7 +7,8 @@ app.use(express.static('public'));
 
 //can not start game without judge
 var hasJudge = false;
-var onlineUserCount = 0;
+// var onlineUserCount = 0;
+var onlinePlayers = [];
 
 //game ws server
 
@@ -22,7 +23,8 @@ io.use(function (socket, next) {
 		});
 	} else if (socket.handshake.query.role === "competitor") {
 		socket.on("disconnect", function () {
-			onlineUserCount = 0;
+			// onlineUserCount = 0;
+			onlinePlayers.length = 0;
 			//need client re-regist when anyone quit
 			io.emit("refresh");
 			console.log("some competitor quit!!! force refresh!");
@@ -33,11 +35,13 @@ io.use(function (socket, next) {
 
 var regist = function(socket) {
 	socket.on("regist", function (userInfo) {
-		onlineUserCount++;
-		console.log("Regist User -> " + userInfo.FullName);
-		console.log("competitor enter the room, current competitor count " + onlineUserCount);
-		if(onlineUserCount <= 2) {
-			io.emit("regist", {userCount: onlineUserCount ,userInfo: userInfo});
+		// onlineUserCount++;
+		// console.log("Regist User -> " + userInfo.FullName);
+		// console.log("competitor enter the room, current competitor count " + onlineUserCount);
+		if(onlinePlayers.length <= 1) {
+			onlinePlayers.push(userInfo);
+			console.log("current players " + onlinePlayers.length);
+			io.emit("regist", {playersList:onlinePlayers});
 		} else {
 			socket.emit("room full");
 		}
@@ -48,6 +52,11 @@ var handleClient = function(socket) {
 
 	regist(socket);
 
+	socket.on("start", function(){
+		console.log("Game starts");
+		io.emit("start");
+	})
+
 	socket.on("disconnect", function (param1) {
 		console.log("user disconnected, param1 -> " + param1);
 	});
@@ -55,29 +64,6 @@ var handleClient = function(socket) {
 
 io.on("connection", handleClient);
 
-
-//http server
-// var router = express.Router();
-
-// router.get("/kiosk", function (req, res) {
-// 	var options = {
-// 		root: __dirname + "/public/kiosk/",
-// 		headers: {
-// 			'x-timestamp': Date.now(),
-// 			'x-send': true
-// 		}
-// 	};
-
-// 	var fileName = "index.html";
-// 	res.sendFile(fileName, options, function (err) {
-// 		if(err) {
-// 			console.log(err);
-// 			res.status(err.status).end();
-// 		} else {
-// 			console.log('Sent: ', fileName);
-// 		}
-// 	})
-// })
 
 http.listen(8087, function () {
 	console.log("listen on port 8087");

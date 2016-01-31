@@ -29,28 +29,8 @@ html, body {
 	background-image: url('../img/waiting.jpg');
 }
 
-.step2 {
-	background-image: url('../img/countdown3.jpg');
-}
-
 .step3 {
-	background-image: url('../img/countdown2.jpg');
-}
-
-.step4 {
-	background-image: url('../img/countdown1.jpg');
-}
-
-.step5 {
-	background-image: url('../img/countdown_go.jpg');
-}
-
-.step6 {
-	background-image: url('../img/in_game.jpg');
-}
-
-.step7 {
-	background-image: url('../img/win.jpg');
+    background-color: #28231F;
 }
 .user_content {
 	text-align: center;
@@ -68,27 +48,136 @@ html, body {
 
 }
 
+/* countdown */
 @keyframes countdown {
-    20% {
+    0% {
         background-image: url('../img/countdown3.jpg');
     }
-    40% {
+    33.3% {
         background-image: url('../img/countdown2.jpg');
     }
-    60% {
-        background-image: url('../img/countdown1.jpg');
-    }
-    80% {
-        background-image: url('../img/countdown_go.jpg');
+    66.6% {
+        background-image: url('../img/countdown1.jpg');   
     }
     100% {
-        background-image: url('../img/in_game.jpg');
+        background-image: url('../img/countdown1.jpg');
     }
 }
 
 .ani-countdown {
     animation-name: countdown;
-    animation-duration: 7s;
+    animation-duration: 3s;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
+
+/*cheers*/
+.cheers > .container{
+            width: 100%;
+            height: 80%;
+            padding-top: 30%;
+        }
+        .go{
+            position: relative;
+            background-image: url('../img/go.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+/*            animation-name: k-go;
+            animation-duration:.8s;
+            animation-timing-function: cubic-bezier(.32,0,.68,1.31);
+            animation-fill-mode: forwards;
+            animation-delay: .1s;*/
+        }
+        .left-beer {
+            background-image: url('../img/beerA.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top:250px;
+/*            animation-name: k-left-beer;
+            animation-duration:.8s;
+            animation-timing-function: cubic-bezier(.32,0,.68,1.31);
+            animation-fill-mode: forwards;
+            animation-delay: .1s;*/
+        }
+        .right-beer {
+            background-image: url('../img/beerB.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top:250px;
+            right: 0px; 
+/*            animation-name: k-right-beer;
+            animation-duration:.8s;
+            animation-timing-function: cubic-bezier(.32,0,.68,1.31);
+            animation-fill-mode: forwards;
+            animation-delay: .1s; */       
+        }
+        .foam {
+            background-image: url('../img/foam.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 75px;
+            height: 75px;
+            position: absolute;
+            top:180px;
+            left: 62%;
+            margin-left: -50px;
+            opacity: 0;
+/*            animation-name: k-foam;
+            animation-duration:.8s;
+            animation-timing-function: cubic-bezier(.32,0,.68,1.31);
+            animation-fill-mode: forwards;
+            animation-delay: .1s;*/
+        }
+
+        @keyframes k-left-beer {
+            from {
+                left: 0;
+            }
+            to {
+                left: 50%;
+                margin-left:-50px;
+                transform: scale(1.2) rotate(-15deg);
+            }
+        }
+        @keyframes k-right-beer {
+            from {
+                right: 0;
+            }
+            to {
+                right: 25%;
+                margin-right: -40px;
+                transform:scale(1.2) rotate(15deg);
+            }
+        }
+        @keyframes k-foam {
+            0 {
+                opacity: 0;
+            }
+            80% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+                top:170px;
+                transform: scale(1.2);
+            }
+        }
+        @keyframes k-go {
+            0 {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }

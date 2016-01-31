@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 	var config = {
 		// gameWS: "http://172.16.5.65:8087/",//test
-		gameWS: "http://192.168.31.104:8087/",//test
+		gameWS: "http://192.168.31.101:8087/",//test
 		// gameWS: "http://demowifi.smartac.co:8087/",//prd
 		accountId: "gh_4ffca3361cb7", //WeChat account ID
 		srapiurl: "http://srdemo.smartac.co/api/", //SR API
@@ -34,16 +34,66 @@ $(document).ready(function(){
 		console.log("room is full");
 	})
 
-	socket.on("regist",  function(user){
-    	if(user.userCount ==1) {
-    		$(".step").hide();
-    		$(".step1").show();
-    	} else if (user.userCount == 2) {
+	//players is a array
+	socket.on("regist",  function(players){
+    	if(players.playersList.length ==1) {
+    		//fisrt player
+    		// $(".step").hide();
+    		// $(".step1").show();
+    		console.log("1 player, is " + players.playersList[0].fullName)
+    	} else if (players.playersList.length == 2) {
+    		//second player
     		//start countdown
+
+    		console.log("2 players, they are " + players.playersList[0].fullName + " and " + players.playersList[1].fullName);
     		console.log("Let's countdown!");
-    		$(".step1").hide();
-    		$(".step2").show();
-			$(".step2").addClass("ani-countdown");
+
+    		//waiting kiosk display players info for 2 seconds
+    		setTimeout(function(){
+	    		$(".step1").hide();
+	    		$(".step2").show().addClass("ani-countdown");
+    		}, 2000);
+
+    		//show cheers section when countdown ends
+    		setTimeout(function(){
+    			$('.step2').hide();
+    			$('.step3').show();
+    			//animation for cheers
+					$('.left-beer').velocity({
+					    left:"50%", 
+					    marginLeft:"-50px",
+					    scale:"1.2",
+					    rotateZ:"-15deg"
+					},{
+					    duration: 800,
+					    easing: [0.32,0,0.68,1.31]
+					});
+					$('.right-beer').velocity({
+					    right:"15%", 
+					    marginLeft:"-40px",
+					    scale:"1.2",
+					    rotateZ:"15deg"
+					},{
+					    duration: 800,
+					    easing: [0.32,0,0.68,1.31]
+					});
+					$('.go').velocity({
+					    opacity: 1,
+					    scale:"1.2"
+					},{
+					    duration: 800,
+					    easing: [0.32,0,0.68,1.31]
+					});
+					$('.foam').velocity({
+					    opacity: 1,
+					    top: "170px",
+					    scale: "1.2"
+					},{
+					    duration: 200,
+					    easing: [0.32,0,0.68,1.31],
+					    delay: 600
+					})
+    		},5000);
     	}
     })
 
@@ -51,6 +101,11 @@ $(document).ready(function(){
     	socket.emit("regist", userInfo);
     });
 
+    socket.on("start", function(){
+    	console.log("Game starts")
+    	$(".step3").hide();
+    	$(".step4").show();
+    })
 	//now i can request the user 
 
 	//get user account info
@@ -63,11 +118,12 @@ $(document).ready(function(){
 	        dataType: 'json',
 	        //contentType: 'application/json',
 	        type: 'get',
-	        async: false
+	        // async: false
 	    }).done(function(data) {
 	    	if (data != null) {
-	    		userInfo["HeadPortrait"] = data.HeadPortrait;
-	    		userInfo["FullName"] = data.FullName;
+	    		userInfo["headPortrait"] = data.HeadPortrait;
+	    		userInfo["fullName"] = data.FullName;
+	    		userInfo["id"] = (new Date()).getTime().toString().slice(-5);
 				socket.emit("regist", userInfo);
 	    	} else {
 	    		console.log("Cannot retrive user info from SR.");

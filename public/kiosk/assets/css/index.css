@@ -34,7 +34,7 @@ section[class^="step"] {
 	background-size: 100% 100%;
 }
 
-.container > .avatar {
+.container > .avatar_left {
 	position: absolute;
     top: 710px;
     left: 337px;
@@ -44,10 +44,31 @@ section[class^="step"] {
     background-size: cover;
 }
 
-.container > .nickname {
+.container > .nickname_left {
     position: absolute;
     top: 880px;
     left: 337px;
+    width: 170px;
+    height: 39px;
+    border-radius: 6px;
+    text-align: center;
+    display: table;
+}
+
+.container > .avatar_right {
+    position: absolute;
+    top: 710px;
+    right: 341px;
+    width: 170px;
+    height: 164px;
+    border-radius: 5px;
+    background-size: cover;
+}
+
+.container > .nickname_right {
+    position: absolute;
+    top: 880px;
+    right: 341px;
     width: 170px;
     height: 39px;
     border-radius: 6px;
@@ -65,26 +86,55 @@ section[class^="step"] {
 }
 
 @keyframes countdown {
-    20% {
+    0% {
         background-image: url('../img/countdown3.jpg');
     }
-    40% {
+    25% {
         background-image: url('../img/countdown2.jpg');
     }
-    60% {
+    50% {
         background-image: url('../img/countdown1.jpg');
     }
-    80% {
+    75% {
+        background-image: url('../img/countdown_go.jpg');
+    }
+    100% {
         background-image: url('../img/countdown_go.jpg');
     }
 }
 
 .ani-countdown {
     animation-name: countdown;
-    animation-duration: 7s;
+    animation-duration: 4.8s;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
+
+/*section.countdown {
+    width: 100%;
+    height: 1640px;
+}
+
+section.countdown > div {
+    width: 100%;
+    height: 100%;
+}
+
+.countdown3 {
+    background-image: url('../img/countdown3.jpg');
+}
+
+.countdown2 {
+    background-image: url('../img/countdown2.jpg');
+}
+
+.countdown1 {
+    background-image: url('../img/countdown1.jpg');
+}
+
+.countdown0 {
+    background-image: url('../img/countdown_go.jpg');
+}*/
 
 .stage {
   	background: url('../img/stage.jpg') no-repeat;
