@@ -69,11 +69,9 @@
     }
     .role_right {
       position: absolute;
-      top: 205px;
-      right: 170px;
-      background-image: url('./assets/img/right_role_1.png');
-      background-repeat: no-repeat;
-      width:353px;
+      top: 210px;
+      right: 115px;
+      width:419px;
       height: 490px;
     }
 
@@ -152,17 +150,130 @@
     .beer_right_6 {
       right: 250px;
     }
+
+    .shine {
+      position: absolute;
+      opacity: 0;
+      background: url('./assets/img/light.png') no-repeat;
+      background-size: cover;
+      width: 500px;
+      height: 500px;
+      z-index: -50;
+      top: 240px;
+    }
+
+    .shine_left {
+      left: 50px;
+    }
+
+    .shine_right {
+      right: 100px;
+    }
+
+    .win_shine {
+      opacity: 1;
+      animation-name: k-win-shine;
+      animation-duration: 10s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-delay: .1s;
+    }
+
+    @keyframes k-win-shine {
+      from {
+          transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+
+.role_left_ingame {
+  animation-name: k-left-ingame;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes k-left-ingame {
+  from {
+      background: url('./assets/img/left_role_1.png') no-repeat;
+  }
+  to {
+    background: url('./assets/img/left_role_2.png') no-repeat;
+  }
+}
+
+.role_right_ingame {
+  animation-name: k-right-ingame;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes k-right-ingame {
+  from {
+      background: url('./assets/img/right_role_1.png') no-repeat;
+  }
+  to {
+    background: url('./assets/img/right_role_2.png') no-repeat;
+  }
+}
+
+.role_left_win {
+  background: url('./assets/img/left_role_win.png') no-repeat;
+}
+
+.role_left_lose {
+  background: url('./assets/img/left_role_lose.png') no-repeat;
+}
+
+.role_right_win {
+  animation-name: k-right-role-win;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes k-right-role-win{
+  from {
+      background: url('./assets/img/right_role_win_1.png') no-repeat;
+  }
+  to {
+    background: url('./assets/img/right_role_win_2.png') no-repeat;
+    background-size: cover;
+  }  
+}
+
+.role_right_lose {
+  background: url('./assets/img/right_role_lose.png') no-repeat;
+}
+
+div[class^="score"]
+
+.score {
+  position: absolute;
+  background-color: #e0c358;
+  /*width: 265px;*/
+  height: 18px;
+  border-radius: 15px;
+  top: 18px;
+  left: 95px;
+}
     </style>
   </head>
   <body>
   <div class="kiosk-wrap">
     <section class="step4 stage">
       <div class="stage_container">
-        <div class="score_bar score_bar_left"><div class="avatar_left"></div></div>
+        <div class="score_bar score_bar_left"><div class="avatar_left"><div class="score score_left"></div></div></div>
         <div class="vs"></div>
-        <div class="score_bar score_bar_right"><div class="avatar_right"></div></div>
-        <div class="role_left"></div>
-        <div class="role_right"></div>
+        <div class="score_bar score_bar_right"><div class="avatar_right"><div class="score score_right"></div></div></div>
+        <div class="shine shine_left win_shinie"></div>
+        <div class="shine shine_right win_shine"></div>
+        <div class="role_left role_left_ingame"></div>
+        <div class="role_right role_right_ingame"></div>
         <div class="barrel_left"></div>
         <div class="barrel_right"></div>
         <div class="beer_left_1 level_1"></div>

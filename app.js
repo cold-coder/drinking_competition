@@ -37,7 +37,7 @@ io.use(function (socket, next) {
 var regist = function(socket) {
 	socket.on("regist", function (userInfo) {
 		// onlineUserCount++;
-		// console.log("Regist User -> " + userInfo.FullName);
+		console.log("Regist User -> " + userInfo.FullName);
 		// console.log("competitor enter the room, current competitor count " + onlineUserCount);
 		if(onlinePlayers.length <= 1) {
 			onlinePlayers.push(userInfo);
@@ -61,6 +61,11 @@ var handleClient = function(socket) {
 		score[onlinePlayers[1].id] = 0;
 		io.emit("start");
 	});
+
+	socket.on("gameover", function(winnerData){
+		console.log("Game over, winner id is " + winnerData.winnerId);
+		io.emit("gameover", winnerData);
+	})
 
 	socket.on("score", function(scoreData) {
 		console.log(scoreData.id + " socres at " + scoreData.score);

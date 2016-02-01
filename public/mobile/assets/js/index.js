@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
 	var config = {
-		// gameWS: "http://172.16.5.65:8087/",//test Smartac
-		gameWS: "http://192.168.31.104:8087/",//test iMac
+		gameWS: "http://172.16.5.65:8087/",//test Smartac
+		// gameWS: "http://192.168.31.104:8087/",//test iMac
 		// gameWS: "http://192.168.31.101:8087/",//test Laptop
 		// gameWS: "http://demowifi.smartac.co:8087/",//prd
 		accountId: "gh_4ffca3361cb7", //WeChat account ID
@@ -139,8 +139,23 @@ $(document).ready(function(){
 		if (window.DeviceMotionEvent) {
 		    window.addEventListener('devicemotion', deviceMotionHandler, false);
 		} else {
-		    alert('你的手机太差了，买个新的吧。');
+		    alert('您的手机不支持此游戏，换个新的吧~');
 		}
+    });
+
+    socket.on("gameover", function(winner){
+    	//remove event listener
+    	window.removeEventListener('devicemotion', deviceMotionHandler, false);
+    	if(winner.winnerId === userInfo.id){
+    		//current player win
+    		$(".step4").hide();
+    		$(".result_win").show();
+    	} else {
+    		//current player lose
+    		$(".step4").hide();
+    		$(".step5").hide();
+    		$(".result_lose").show();
+    	}
     })
 	//now i can request the user 
 
