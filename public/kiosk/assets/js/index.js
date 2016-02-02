@@ -70,7 +70,7 @@ $(document).ready(function(){
             return;
         }
         clearBeerCup(score_left, "left");
-        clearBeerCup(score_right,"right")
+        clearBeerCup(score_right,"right");
     }
 
     //beer disappear animation

@@ -80,7 +80,21 @@ $(document).ready(function(){
     		//waiting kiosk display players info for 2 seconds
     		setTimeout(function(){
 	    		$(".step1").hide();
-	    		$(".step2").show().addClass("ani-countdown");
+	    		$(".countdown_3").velocity("fadeIn", {duration: 500}).velocity("fadeOut", {
+		            duration:500,
+		            // delay:1000,
+		            complete: function(){
+		                $(".countdown_2").velocity("fadeIn", {duration:500}).velocity("fadeOut", {
+		                    duration: 500,
+		                    complete: function(){
+		                        $(".countdown_1").velocity("fadeIn", {duration:500}).velocity("fadeOut", {
+		                            duration:500
+		                        })
+		                    }
+		                })
+		                
+		            }
+		        })
     		}, 2000);
 
     		//show cheers section when countdown ends
@@ -135,6 +149,14 @@ $(document).ready(function(){
     	$(".step3").hide();
     	$(".step4").show();
 
+    	$(".hand").velocity({
+    		rotateZ: "30deg"
+    	},{
+    		duration: 500,
+    		easing: "ease",
+    		loop: true
+    	})
+
     	//turn on event listen for device motion
 		if (window.DeviceMotionEvent) {
 		    window.addEventListener('devicemotion', deviceMotionHandler, false);
@@ -174,7 +196,7 @@ $(document).ready(function(){
 	    	if (data != null) {
 	    		userInfo["headPortrait"] = data.HeadPortrait;
 	    		userInfo["fullName"] = data.FullName;
-	    		userInfo["id"] = (new Date()).getTime().toString().slice(-5);
+	    		userInfo["id"] = data.FullName+"_"+(new Date()).getTime().toString().slice(-5);
 				socket.emit("regist", userInfo);
 	    	} else {
 	    		console.log("Cannot retrive user info from SR.");

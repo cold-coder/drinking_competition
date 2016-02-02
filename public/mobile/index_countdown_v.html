@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>啤酒比赛</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <!-- <link rel="stylesheet" href="assets/css/index.css"> -->
+    <style type="text/css">
+    html, body { 
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    overflow: hidden;
+ }
+/*        @keyframes countdown {
+            20% {
+                background-image: url('./assets/img/countdown3.jpg');
+            }
+            40% {
+                background-image: url('./assets/img/countdown2.jpg');
+            }
+            60% {
+                background-image: url('./assets/img/countdown1.jpg');
+            }
+            80% {
+                background-image: url('./assets/img/countdown_go.jpg');
+            }
+            100% {
+                background-image: url('./assets/img/in_game.jpg');
+            }
+        }
+
+        .ani-countdown {
+            animation-name: countdown;
+            animation-duration: 7s;
+            animation-timing-function: ease-out;
+            animation-fill-mode: forwards;
+            animation-delay: 1s;
+        }*/
+.step {
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.hide_o {
+    opacity: 0;
+}
+
+.countdown > div {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+
+.countdown_3 {
+    background-image: url('./assets/img/countdown3.jpg');
+}
+
+.countdown_2 {
+    background-image: url('./assets/img/countdown2.jpg');
+}
+
+.countdown_1 {
+    background-image: url('./assets/img/countdown1.jpg');
+}
+
+    </style>
+  </head>
+  <body>
+    <section class="step step1 countdown">
+      <div class="countdown_3 hide_o"></div>
+      <div class="countdown_2 hide_o"></div>
+      <div class="countdown_1 hide_o"></div>
+    </section>
+    <script src="assets/vendor/zepto.min.js"></script>
+    <script src="assets/vendor/velocity.min.js"></script>
+
+	<script>
+    $(document).ready(function(){
+        $(".countdown_3").velocity("fadeIn", {duration: 500}).velocity("fadeOut", {
+            duration:500,
+            delay:1000,
+            complete: function(){
+                $(".countdown_2").velocity("fadeIn", {duration:500}).velocity("fadeOut", {
+                    duration: 500,
+                    delay:1000,
+                    complete: function(){
+                        $(".countdown_3").velocity("fadeIn", {duration:500}).velocity("fadeOut", {
+                            duration:500,
+                            delay:1000
+                        })
+                    }
+                })
+                
+            }
+        })
+    })
+	</script>
+  </body>
+</html>

@@ -130,19 +130,19 @@ section.countdown > div {
     height: 100%;
 }
 
-.countdown3 {
+.countdown_3 {
     background-image: url('../img/countdown3.jpg');
 }
 
-.countdown2 {
+.countdown_2 {
     background-image: url('../img/countdown2.jpg');
 }
 
-.countdown1 {
+.countdown_1 {
     background-image: url('../img/countdown1.jpg');
 }
 
-.countdown0 {
+.countdown_0 {
     background-image: url('../img/countdown_go.jpg');
 }*/
 
