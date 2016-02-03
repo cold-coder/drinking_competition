@@ -59,16 +59,16 @@ $(document).ready(function(){
 
 
     function updateScore(score) {
-        var score_left = score[onlinePlayers[0].id];
-        var score_right = score[onlinePlayers[1].id];
+        var score_left = score[onlinePlayers[1].id];
+        var score_right = score[onlinePlayers[0].id];
         if(score_left > TOTALSCORE){
             drinkUp($(".beer_left_6"));
-            socket.emit("gameover",{winnerId:onlinePlayers[0].id});
+            socket.emit("gameover",{winnerId:onlinePlayers[1].id});
             return;
         }
         if(score_right > TOTALSCORE){
             drinkUp($(".beer_right_6"));
-            socket.emit("gameover",{winnerId:onlinePlayers[1].id});
+            socket.emit("gameover",{winnerId:onlinePlayers[0].id});
             return;
         }
         clearBeerCup(score_left, "left");
@@ -117,8 +117,8 @@ $(document).ready(function(){
         console.log("Game starts");
         $(".step3").hide();
         $(".step4").show();
-        $(".step4 .avatar_left").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
-        $(".step4 .avatar_right").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
+        $(".step4 .avatar_left").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
+        $(".step4 .avatar_right").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
         $(".role_left").addClass("role_left_ingame");
         $(".role_right").addClass("role_right_ingame"); 
     });
@@ -126,14 +126,14 @@ $(document).ready(function(){
     socket.on("gameover", function(winner){
         var winnerSide = "";
         var loseSide = "";
-        if(winner.winnerId == onlinePlayers[0].id) {
+        if(winner.winnerId == onlinePlayers[1].id) {
             winnerSide = "left";
             loseSide = "right";
-            $(".reward .avatar_winner").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
-            $(".reward .nickname_winner_txt").text(onlinePlayers[0].fullName);
-        } else if (winner.winnerId == onlinePlayers[1].id) {
             $(".reward .avatar_winner").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
             $(".reward .nickname_winner_txt").text(onlinePlayers[1].fullName);
+        } else if (winner.winnerId == onlinePlayers[0].id) {
+            $(".reward .avatar_winner").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
+            $(".reward .nickname_winner_txt").text(onlinePlayers[0].fullName);
             winnerSide = "right";
             loseSide = "left";
         }

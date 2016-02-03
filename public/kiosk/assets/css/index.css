@@ -241,10 +241,12 @@ section[class^="step"] {
 @keyframes k-right-role-win{
   from {
       background: url('../img/right_role_win_1.png') no-repeat;
+      top: 180px;
   }
   to {
     background: url('../img/right_role_win_2.png') no-repeat;
     background-size: cover;
+    top: 210px;
   }  
 }
 
@@ -387,7 +389,7 @@ div[class^="beer"] {
 
 .reward .avatar_winner {
     position: absolute;
-    top: 540px;
+    top: 610px;
     left: 405px;
     width: 264px;
     height: 230px;
@@ -397,7 +399,7 @@ div[class^="beer"] {
 
 .reward .nickname_winner{
     position: absolute;
-    top: 786px;
+    top: 856px;
     left: 395px;
     width: 300px;
     height: 80px;
@@ -419,7 +421,7 @@ div[class^="beer"] {
 .reward .skull {
     background: url('../img/skull.png') no-repeat;
     position: absolute;
-    top: 470px;
+    top: 540px;
     right: 500px;
     width: 100px;
     height: 100px;

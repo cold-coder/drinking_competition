@@ -114,10 +114,15 @@ $(document).ready(function(){
 	socket.on("regist",  function(players){
     	if(players.playersList.length ==1) {
     		//fisrt player enter
-
+    		$(".role2_waiting").hide();
     		console.log("1 player, is " + players.playersList[0].fullName)
     	} else if (players.playersList.length == 2) {
     		//second player
+
+    		if(players.playersList[1].id === userInfo.id) {
+    			$(".role1_waiting").hide();
+    			$(".role2_waiting").show();
+    		}
 
     		console.log("2 players, they are " + players.playersList[0].fullName + " and " + players.playersList[1].fullName);
     		console.log("Let's countdown!");
