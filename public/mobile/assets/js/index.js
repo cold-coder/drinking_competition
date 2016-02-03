@@ -8,6 +8,12 @@ $(document).ready(function(){
 		accountId: "gh_4ffca3361cb7", //WeChat account ID
 		srapiurl: "http://srdemo.smartac.co/api/", //SR API
         };
+
+	// var openid = getWeixinOpenId(); //for production
+	var openid = "oNPMJj9yw5SNuNDNQvJAh7nvvxbE"; //only for testing
+	var userInfo = {};
+	var socket = io(config.gameWS, { query:"role=competitor"});
+
 	//extract openid from url
 	function getWeixinOpenId() {
 		var openid = false;
@@ -24,12 +30,54 @@ $(document).ready(function(){
 		return openid;
 	}
 
-	// var openid = getWeixinOpenId(); //for production
-	var openid = "oNPMJj9yw5SNuNDNQvJAh7nvvxbE"; //only for testing
-	var userInfo = {};
-	var socket = io(config.gameWS, { query:"role=competitor"});
+		//get user account info
+	if(openid){
+		//query user info via SR API
+	    $.ajax({
+	        url:  config.srapiurl+ "Customer/CustomerGetById_xc/"+ openid +"/" + config.accountId +"", //Weixin User API
+	        dataType: 'json',
+	        type: 'get'
+	    }).done(function(data) {
+	    	if (data != null) {
+	    		userInfo["headPortrait"] = data.HeadPortrait;
+	    		userInfo["fullName"] = data.FullName;
+	    		userInfo["id"] = data.FullName+"_"+(new Date()).getTime().toString().slice(-5);
+				socket.emit("regist", userInfo);
+	    	} else {
+	    		console.log("Cannot retrive user info from SR.");
+	    	}
+	    }).fail( function (error) {
+	    	console.log("SR API Internal Error.")
+	    });
+	} else {
+		alert("can not get openid!");
+	}
 
-	// socket.emit("regist", {HeadPortrait:"myAvatar.png", FullName: "usr_" + (new Date()).getTime().toString().slice(-5)});
+	//get 100 points from SR api
+	function getPoints(){
+	    var data="'{\"openid\":\""+openid+"\",\"pointnum\":\"100\",\"notes\":\"喝啤酒游戏\"}'";
+	    $.ajax({
+	        url: config.srapiurl+"RewardsProgram/RewardPointToMember_xc",
+	        dataType: 'json',
+	        contentType: 'application/json',
+	        type: 'post',
+	        data: data
+	    }).done(function(data) {
+	        if (data == 1) {
+	        	alert("领取成功！");
+	            return true;
+	        } else {
+	        	alert("领取失败！");
+	            return false;
+	            console.error(data);
+	        }
+	    });
+	}
+
+
+	//bind for get point reward
+	$(".btn_get_point").one("click", getPoints);
+
 
 	//define event handler for shake
 	var SHAKE_THRESHOLD = 3000;
@@ -55,7 +103,6 @@ $(document).ready(function(){
 	    }
 	}
 	function uploadSpeed(speed){
-		// document.querySelector('#messages').innerHTML = parseInt(speed);
 		socket.emit("score", {id: userInfo.id, score: parseInt(speed)});
 	}
 
@@ -63,44 +110,59 @@ $(document).ready(function(){
 		console.log("room is full");
 	})
 
-	//players is a array
+	//players is an array
 	socket.on("regist",  function(players){
     	if(players.playersList.length ==1) {
-    		//fisrt player
-    		// $(".step").hide();
-    		// $(".step1").show();
+    		//fisrt player enter
+
     		console.log("1 player, is " + players.playersList[0].fullName)
     	} else if (players.playersList.length == 2) {
     		//second player
-    		//start countdown
 
     		console.log("2 players, they are " + players.playersList[0].fullName + " and " + players.playersList[1].fullName);
     		console.log("Let's countdown!");
 
-    		//waiting kiosk display players info for 2 seconds
-    		setTimeout(function(){
-	    		$(".step1").hide();
-	    		$(".countdown_3").velocity("fadeIn", {duration: 500}).velocity("fadeOut", {
-		            duration:500,
-		            // delay:1000,
-		            complete: function(){
-		                $(".countdown_2").velocity("fadeIn", {duration:500}).velocity("fadeOut", {
-		                    duration: 500,
-		                    complete: function(){
-		                        $(".countdown_1").velocity("fadeIn", {duration:500}).velocity("fadeOut", {
-		                            duration:500
-		                        })
-		                    }
-		                })
-		                
-		            }
-		        })
-    		}, 2000);
+    		//countdown animation
+			var countdownShow = {
+	            p: {
+	              opacity: 1,
+	              scale: 0.5
+	            },
+	            o: {
+	              duration: 500,
+	              easing: "linear"
+	            }
+	          }
+	        var countdownHide = {
+	            p: {
+	              opacity: 0
+	            },
+	            o: {
+	              duration: 500,
+	              easing: "linear"
+	            }
+	          }
+
+	        //delay 2s for waiting kiosk display two players info
+	        var loadingSequence = [
+	            { e: $(".mask"), p: {opacity:0.6}, o: {display:"block", delay:2000}},
+	            { e: $(".countdown_3"), p: countdownShow.p, o: countdownShow.o},
+	            { e: $(".countdown_3"), p: countdownHide.p, o: countdownHide.o},
+	            { e: $(".countdown_2"), p: countdownShow.p, o: countdownShow.o},
+	            { e: $(".countdown_2"), p: countdownHide.p, o: countdownHide.o},
+	            { e: $(".countdown_1"), p: countdownShow.p, o: countdownShow.o},
+	            { e: $(".countdown_1"), p: countdownHide.p, o: countdownHide.o},
+	            { e: $(".mask"), p: {opacity:0}, o: {display:"none"}}
+	        ]
+
+	        //about 5 seconds
+	        $.Velocity.RunSequence(loadingSequence);
 
     		//show cheers section when countdown ends
     		setTimeout(function(){
-    			$('.step2').hide();
-    			$('.step3').show();
+    			$(".step1").hide();
+    			$(".step2").hide();
+    			$(".step3").show();
     			//animation for cheers
 					$('.left-beer').velocity({
 					    left:"50%", 
@@ -112,7 +174,7 @@ $(document).ready(function(){
 					    easing: [0.32,0,0.68,1.31]
 					});
 					$('.right-beer').velocity({
-					    right:"15%", 
+					    right:"15%",
 					    marginLeft:"-40px",
 					    scale:"1.2",
 					    rotateZ:"15deg"
@@ -179,34 +241,8 @@ $(document).ready(function(){
     		$(".result_lose").show();
     	}
     })
-	//now i can request the user 
 
-	//get user account info
-	if(openid){
-		$("#openid").text(openid);
 
-		//query user info via SR API
-	    $.ajax({
-	        url:  config.srapiurl+ "Customer/CustomerGetById_xc/"+ openid +"/" + config.accountId +"", //Weixin User API
-	        dataType: 'json',
-	        //contentType: 'application/json',
-	        type: 'get',
-	        // async: false
-	    }).done(function(data) {
-	    	if (data != null) {
-	    		userInfo["headPortrait"] = data.HeadPortrait;
-	    		userInfo["fullName"] = data.FullName;
-	    		userInfo["id"] = data.FullName+"_"+(new Date()).getTime().toString().slice(-5);
-				socket.emit("regist", userInfo);
-	    	} else {
-	    		console.log("Cannot retrive user info from SR.");
-	    	}
-	    }).fail( function (error) {
-	    	console.log("SR API Internal Error.")
-	    });
-	} else {
-		alert("can not get openid!");
-	}
 
 
 

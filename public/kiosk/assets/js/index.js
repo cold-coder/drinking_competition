@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var config = {
-		gameWS: "http://127.0.0.1:8087/",//http://demowifi.smartac.co:8087
+		gameWS: "http://127.0.0.1:8087/",
+        // gameWS: "http://demowifi.smartac.co:8087",
 		accountId: "gh_4ffca3361cb7", //微信公众号ID
 		srapiurl: "http://srdemo.smartac.co/api/", //SR API地址前缀
     };
@@ -26,16 +27,17 @@ $(document).ready(function(){
 
             //store player info to local
             onlinePlayers = players.playersList;
-    		//begin countdown
 
+            //display two players info for 2 seconds
             setTimeout(function(){
                 $(".step2").hide();
                 $(".step3").show().addClass("ani-countdown");
             }, 2000);
 
+            //wait 7 seconds for client side wait(2s) + countdown(3s) + cheers(.8s) section
             setTimeout(function(){
                 socket.emit("start");
-            }, 6000)
+            }, 7000)
     	} else {
     		console.log("Should not get here");
     	}
@@ -95,7 +97,7 @@ $(document).ready(function(){
         var scoreBarWidth = (score/TOTALSCORE) * 265;
         
         //score bar update
-        $(".score_"+side).velocity({width: scoreBarWidth},"spring");
+        $(".score_"+side).velocity({width: scoreBarWidth},{duration:100,esaing: "linear"});
 
         //beer cup update
         if(scorePercent > 16.6 && scorePercent < 33.3){

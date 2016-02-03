@@ -16,6 +16,7 @@ var score = {};
 //judge Enter when the Kiosk display the page of /kiosk/index.html
 io.use(function (socket, next) {
 	if (socket.handshake.query.role === "judge") {
+		onlinePlayers.length = 0;
 		console.log("judge enter the room");
 		hasJudge = true;
 		socket.on("disconnect", function () {
@@ -37,7 +38,7 @@ io.use(function (socket, next) {
 var regist = function(socket) {
 	socket.on("regist", function (userInfo) {
 		// onlineUserCount++;
-		console.log("Regist User -> " + userInfo.FullName);
+		console.log("Regist User -> " + userInfo.id);
 		// console.log("competitor enter the room, current competitor count " + onlineUserCount);
 		if(onlinePlayers.length <= 1) {
 			onlinePlayers.push(userInfo);

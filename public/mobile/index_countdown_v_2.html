@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>啤酒比赛</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <!-- <link rel="stylesheet" href="assets/css/index.css"> -->
+    <style type="text/css">
+    html, body { 
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    overflow: hidden;
+ }
+.step {
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.hide_o {
+    opacity: 0;
+}
+
+.hide {
+    display: none;
+}
+
+.countdown {
+    background: url('./assets/img/waiting.jpg') no-repeat;
+    background-size: cover;
+}
+
+.countdown > div {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 550px;
+    height: 440px;
+    margin-left: -275px;
+    margin-top: -220px;
+    z-index: 200;
+    background-size: contain;
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+}
+
+
+
+.countdown_3 {
+    background: url('./assets/img/cd3.png') no-repeat;
+}
+
+.countdown_2 {
+    background: url('./assets/img/cd2.png') no-repeat;
+}
+
+.countdown_1 {
+    background: url('./assets/img/cd1.png') no-repeat;
+}
+
+
+.mask {
+    position:fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background-color:#000;
+    z-index: 100;
+}
+
+    </style>
+  </head>
+  <body>
+    <section class="step step1 countdown">
+      <div class="cd countdown_3 hide_o"></div>
+      <div class="cd countdown_2 hide_o"></div>
+      <div class="cd countdown_1 hide_o"></div>
+    </section>
+    <section class="mask hide"></section>
+    <script src="assets/vendor/zepto.min.js"></script>
+    <script src="assets/vendor/velocity.min.js"></script>
+    <script src="assets/vendor/velocity.ui.min.js"></script>
+
+	<script>
+    $(document).ready(function(){
+        // $(".mask").show();
+        // $(".countdown_3").velocity({opacity:1},{duration:1000});
+        var countdownShow = {
+            p: {
+              opacity: 1,
+              scale: 0.5
+            },
+            o: {
+              duration: 500,
+              easing: "linear"
+            }
+          }
+        var countdownHide = {
+            p: {
+              opacity: 0
+            },
+            o: {
+              duration: 500,
+              easing: "linear"
+            }
+          }
+
+        var loadingSequence = [
+            { e: $(".mask"), p: {opacity:0.6}, o: {display:"block"}},
+            { e: $(".countdown_3"), p: countdownShow.p, o: countdownShow.o},
+            { e: $(".countdown_3"), p: countdownHide.p, o: countdownHide.o},
+            { e: $(".countdown_2"), p: countdownShow.p, o: countdownShow.o},
+            { e: $(".countdown_2"), p: countdownHide.p, o: countdownHide.o},
+            { e: $(".countdown_1"), p: countdownShow.p, o: countdownShow.o},
+            { e: $(".countdown_1"), p: countdownHide.p, o: countdownHide.o},
+            { e: $(".mask"), p: {opacity:0}, o: {display:"none"}}
+        ]
+
+        $.Velocity.RunSequence(loadingSequence);
+    })
+	</script>
+  </body>
+</html>
