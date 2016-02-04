@@ -12,7 +12,20 @@ $(document).ready(function(){
 	// var openid = getWeixinOpenId(); //for production
 	var openid = "oNPMJj9yw5SNuNDNQvJAh7nvvxbE"; //only for testing
 	var userInfo = {};
-	var socket = io(config.gameWS, { query:"role=competitor"});
+	var socket;
+
+
+	if(!isFollower()){
+	    //alert('请先关注我们的公众号后，重新扫码！');
+	    window.location.href='login.html';
+	    return;
+	} else {
+		socket = io(config.gameWS, { query:"role=competitor"});
+	}
+
+
+
+
 
 	//extract openid from url
 	function getWeixinOpenId() {
@@ -28,6 +41,26 @@ $(document).ready(function(){
 		    });
 		}
 		return openid;
+	}
+
+	//check if user follows the public account
+	function isFollower(){
+	    var result = false;
+	    $.ajax({
+	        url:  config.srapiurl+ "customer/custvalidate_xc/" + config.accountId + "/" + openid + " ", 
+	        dataType: 'json',
+	        //contentType: 'application/json',
+	        type: 'get',
+	        data: {},
+	        async: false
+	    }).done(function(data) {
+	        if (data.code == 1) {
+	            result = true;
+	        } else {
+	            result = false;
+	        }
+	    });
+	    return result;
 	}
 
 		//get user account info

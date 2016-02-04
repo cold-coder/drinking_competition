@@ -24,6 +24,7 @@ html, body {
     width: 100%;
     background-color:#000;
     z-index: 100;
+    opacity: 0.6;
 }
 
 .qr_demowifi {
@@ -31,6 +32,40 @@ html, body {
 	height: 300px;
 	margin: 2% auto;
 	border-radius: 5px;
+}
+
+/*Login Page*/
+.status--welcome {
+    background: url('../img/waiting_role1.jpg') no-repeat;
+    background-size: cover;
+}
+
+
+.ad {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  max-width: 540px;
+  height: 157px;
+}
+.ad img {
+  width: 100%;
+}
+
+.code-popup {
+  position: relative;
+  display: block;
+  margin: 200px auto 0;
+  width: 240px;
+  height: 232.5px;
+  background: url('../img/code_bg.png');
+  background-size: cover;
+}
+.code-popup img {
+  width: 50%;
+  position: absolute;
+  top: 18%;
+  left: 26%;
 }
 
 .step {
