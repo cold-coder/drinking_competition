@@ -29,15 +29,61 @@ $(document).ready(function(){
             onlinePlayers = players.playersList;
 
             //display two players info for 2 seconds
-            setTimeout(function(){
-                $(".step2").hide();
-                $(".step3").show().addClass("ani-countdown");
-            }, 2000);
+            //countdown animation
+            var countdownShow = {
+                p: {
+                  opacity: 1,
+                  scale: 0.7
+                },
+                o: {
+                  duration: 500,
+                  easing: "linear"
+                }
+              }
+            var countdownHide = {
+                p: {
+                  opacity: 0
+                },
+                o: {
+                  duration: 500,
+                  easing: "linear"
+                }
+              }
+            var countdownGoShow = {
+                p: {
+                  opacity: 1,
+                  scale: 1
+                },
+                o: {
+                  duration: 500,
+                  easing: "linear"
+                }
+              }
+            //delay 2s for waiting kiosk display two players info
+            var loadingSequence = [
+                { e: $(".mask"), p: {opacity:0.6}, o: {display:"block", delay:2000}},
+                { e: $(".countdown_3"), p: countdownShow.p, o: countdownShow.o},
+                { e: $(".countdown_3"), p: countdownHide.p, o: countdownHide.o},
+                { e: $(".countdown_2"), p: countdownShow.p, o: countdownShow.o},
+                { e: $(".countdown_2"), p: countdownHide.p, o: countdownHide.o},
+                { e: $(".countdown_1"), p: countdownShow.p, o: countdownShow.o},
+                { e: $(".countdown_1"), p: countdownHide.p, o: countdownHide.o},
+                { e: $(".countdown_go"), p: countdownGoShow.p, o: countdownShow.o},
+                { e: $(".countdown_go"), p: countdownHide.p, o: countdownHide.o},
+                { e: $(".mask"), p: {opacity:0}, o: {display:"none"}}
+            ]
+
+            //about 5 seconds
+            $.Velocity.RunSequence(loadingSequence);
+            // setTimeout(function(){
+            //     $(".step2").hide();
+            //     $(".step3").show().addClass("ani-countdown");
+            // }, 2000);
 
             //wait 7 seconds for client side wait(2s) + countdown(3s) + cheers(.8s) section
             setTimeout(function(){
                 socket.emit("start");
-            }, 7000)
+            }, 8000)
     	} else {
     		console.log("Should not get here");
     	}

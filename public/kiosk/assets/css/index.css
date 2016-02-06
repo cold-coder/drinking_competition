@@ -24,6 +24,25 @@ section[class^="step"] {
   position: relative;
 }
 
+.hide {
+  display: none;
+}
+
+.hide_o {
+    opacity: 0;
+}
+
+.mask {
+    position:fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background-color:#000;
+    z-index: 100;
+    opacity: 0.6;
+}
+
 .poster {
   	background: url('../img/poster.jpg') no-repeat;
  	background-size: 100% 100%;	
@@ -86,7 +105,44 @@ section[class^="step"] {
     text-overflow: ellipsis;
 }
 
-@-webkit-keyframes countdown {
+/* countdown */
+.countdown > div {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 1000px;
+    height: 700px;
+    margin-left: -500px;
+    margin-top: -350px;
+    z-index: 200;
+    background-size: contain;
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+}
+
+.countdown > .countdown_go {
+    margin-left: -420px;
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+}
+
+.countdown_3 {
+    background: url('../img/cd3.png') no-repeat;
+}
+
+.countdown_2 {
+    background: url('../img/cd2.png') no-repeat;
+}
+
+.countdown_1 {
+    background: url('../img/cd1.png') no-repeat;
+}
+
+.countdown_go {
+    background: url('../img/cd_go.png') no-repeat;
+}
+
+/*@-webkit-keyframes countdown {
     0% {
         background-image: url('../img/countdown3.jpg');
     }
@@ -148,7 +204,7 @@ section[class^="step"] {
             animation-timing-function: ease-out;
     -webkit-animation-fill-mode: forwards;
             animation-fill-mode: forwards;
-}
+}*/
 
 /*Game Stage*/
 .stage {
