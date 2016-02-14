@@ -13,6 +13,8 @@ $(document).ready(function(){
     var socket = io(config.gameWS, { query:"role=judge"});
     socket.on("regist", function(players){
     	if(players.playersList.length ==1) {
+            showToast(players.playersList[0].headPortrait, "ENTER", players.playersList[0].fullName);
+
     		$(".step1").hide();
             $(".step2").show();
             $(".step2 .avatar_left").css("background-image", "url(" + players.playersList[0].headPortrait + ")");
@@ -21,6 +23,7 @@ $(document).ready(function(){
             $(".step2 .nickname_txt_right").text("扫码加入游戏");
     		console.log(players.playersList[0].fullName + " has enter the room, waiting another competitor");
     	} else if (players.playersList.length == 2) {
+            showToast(players.playersList[1].headPortrait, "ENTER", players.playersList[1].fullName);
             console.log("2 players, they are " + players.playersList[0].fullName + " and " + players.playersList[1].fullName)
             $(".step2 .avatar_right").css("background-image", "url(" + players.playersList[1].headPortrait + ")");
             $(".step2 .nickname_txt_right").text(players.playersList[1].fullName);
@@ -143,7 +146,7 @@ $(document).ready(function(){
         var scoreBarWidth = (score/TOTALSCORE) * 265;
         
         //score bar update
-        $(".score_"+side).velocity({width: scoreBarWidth},{duration:100,esaing: "linear"});
+        $(".score_"+side).velocity({width: scoreBarWidth},{duration:100,easing: "linear"});
 
         //beer cup update
         if(scorePercent > 16.6 && scorePercent < 33.3){
@@ -161,6 +164,7 @@ $(document).ready(function(){
 
     socket.on("start", function(){
         console.log("Game starts");
+        $(".step2").hide();
         $(".step3").hide();
         $(".step4").show();
         $(".step4 .avatar_left").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
@@ -196,4 +200,42 @@ $(document).ready(function(){
             $(".step5").show();
         }, 4000);
     })
+
+    /*
+    param:
+        type: Exit or Enter
+        img: avatar url
+        name: player name
+    */
+    function showToast(img, type, name){
+        var msg = "";
+
+        if(type.toUpperCase() === "EXIT") {
+            msg = "离开游戏"
+        } else if (type.toUpperCase() === "ENTER"){
+            msg = "进入游戏"
+        } else {
+            return;
+        }
+
+        var $toastInstance = $(".toast").clone();
+        $toastInstance.children(".avatar").css("background-image", "url(" + img + ")");
+        $toastInstance.children(".info").children(".infoMsg").text(msg);
+        $toastInstance.children(".info").children(".playerName").text(name);
+        
+        $(".kiosk-wrap").append($toastInstance);
+        $toastInstance.velocity({
+            opacity:1
+        },{
+            duration: 300,
+            easing:"ease-in"
+        }).velocity({
+            opacity:0
+        },{
+            delay: 2000,
+            duration: 300,
+            easing: "ease-out"
+        });
+    }
+
 })

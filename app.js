@@ -44,7 +44,7 @@ var regist = function(socket) {
 			onlinePlayers.push(userInfo);
 			score[userInfo.id] = 0;
 			console.log("current players " + onlinePlayers.length);
-			io.emit("regist", {playersList:onlinePlayers});
+			io.emit("regist", {playersList:onlinePlayers}); 
 		} else {
 			socket.emit("room full");
 		}
@@ -60,7 +60,7 @@ var handleClient = function(socket) {
 		score = {};
 		score[onlinePlayers[0].id] = 0;
 		score[onlinePlayers[1].id] = 0;
-		io.emit("start");
+		io.emit("start", {playersList:onlinePlayers});
 	});
 
 	socket.on("gameover", function(winnerData){

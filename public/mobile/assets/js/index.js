@@ -244,18 +244,29 @@ $(document).ready(function(){
     	socket.emit("regist", userInfo);
     });
 
-    socket.on("start", function(){
+    socket.on("start", function(players){
     	console.log("Game starts")
     	$(".step3").hide();
     	$(".step4").show();
 
+    	//show respective avatar
+    	var imgSrc;
+    	if(players.playersList[1].id === userInfo.id) {
+    		imgSrc = "./assets/img/role_1.png";
+    	} else {
+    		imgSrc = "./assets/img/role_2.png";
+    	}
+
+    	$(".in-game .avatar img").attr("src", imgSrc);
+
+    	//make hand shake
     	$(".hand").velocity({
     		rotateZ: "30deg"
     	},{
     		duration: 500,
     		easing: "ease",
     		loop: true
-    	})
+    	});
 
     	//turn on event listen for device motion
 		if (window.DeviceMotionEvent) {

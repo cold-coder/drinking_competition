@@ -196,8 +196,8 @@ html, body {
 .in-game {
       background-image: url('../img/in_game_bg.jpg');
       width: 100%;
-    }
-.wheel {
+}
+.in-game .wheel {
   position: absolute;
   background-image: url('../img/wheel.png');
   background-size: contain;
@@ -212,7 +212,7 @@ html, body {
 
 
 
-.hand {
+.in-game .hand {
   position: absolute;
   background-image: url('../img/shake_hand.png');
   background-size: contain;
@@ -225,6 +225,23 @@ html, body {
   transform: rotate(-30deg);
 }
 
+.in-game .avatar {
+  position: absolute;
+  background-image: url('../img/circle_avatar.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  bottom: 10%;
+  left: 5%;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+
+.in-game .avatar img {
+    width: 70px;
+    height: 70px;
+    margin-top: 16px;
+}
 /*result*/
 .result_win {
     background-image: url('../img/win.jpg');
