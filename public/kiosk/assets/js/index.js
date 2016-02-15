@@ -12,25 +12,23 @@ $(document).ready(function(){
 
 
     var socket = io(config.gameWS, { query:"role=judge"});
-    socket.on("regist", function(players){
-    	if(players.playersList.length ==1) {
-            showToast(players.playersList[0].headPortrait, "ENTER", players.playersList[0].fullName);
-
+    socket.on("sync", function(players){
+        console.log(players);
+    	if(players.length == 1) {
     		$(".step1").hide();
             $(".step2").show();
-            $(".step2 .avatar_left").css("background-image", "url(" + players.playersList[0].headPortrait + ")");
-            $(".step2 .nickname_txt_left").text(players.playersList[0].fullName);
+            $(".step2 .avatar_left").css("background-image", "url(" + players[0].headPortrait + ")");
+            $(".step2 .nickname_txt_left").text(players[0].fullName);
             $(".step2 .avatar_right").css("background-image", "url('./assets/img/qr_code.jpg')");
             $(".step2 .nickname_txt_right").text("扫码加入游戏");
-    		console.log(players.playersList[0].fullName + " has enter the room, waiting another player");
-    	} else if (players.playersList.length == 2) {
-            showToast(players.playersList[1].headPortrait, "ENTER", players.playersList[1].fullName);
-            console.log("2 players, they are " + players.playersList[0].fullName + " and " + players.playersList[1].fullName)
-            $(".step2 .avatar_right").css("background-image", "url(" + players.playersList[1].headPortrait + ")");
-            $(".step2 .nickname_txt_right").text(players.playersList[1].fullName);
+    		console.log(players[0].fullName + " has enter the room, waiting another player");
+    	} else if (players.length == 2) {
+            console.log("2 players, they are " + players[0].fullName + " and " + players[1].fullName)
+            $(".step2 .avatar_right").css("background-image", "url(" + players[1].headPortrait + ")");
+            $(".step2 .nickname_txt_right").text(players[1].fullName);
 
             //store player info to local
-            onlinePlayers = players.playersList;
+            onlinePlayers = players;
 
             //display two players info for 2 seconds
             //countdown animation
@@ -88,14 +86,19 @@ $(document).ready(function(){
             setTimeout(function(){
                 socket.emit("start");
             }, 8000)
-    	} else {
-    		console.log("Should not get here");
+    	} else if (players.length == 0) {
+            //both exit, then show login page
+    		$(".step1").show();
     	}
+    });
+
+    socket.on("enter", function(player){
+        showToast(player.headPortrait, "ENTER", player.fullName);
     })
 
-    socket.on("refresh", function(){
-    	$(".step1").show();
-    });
+    socket.on("exit", function(player){
+        showToast(player.headPortrait, "EXIT", player.fullName);
+    })
 
     $(".btn_refresh").on("click", function(){
         location.reload();
@@ -219,11 +222,12 @@ $(document).ready(function(){
             return;
         }
 
-        var $toastInstance = $(".toast").clone();
+        var $toastInstance = $(".toast_template").clone();
+        $toastInstance.removeClass("toast_template");
         $toastInstance.children(".avatar").css("background-image", "url(" + img + ")");
         $toastInstance.children(".info").children(".infoMsg").text(msg);
         $toastInstance.children(".info").children(".playerName").text(name);
-        
+        $(".toast:not('.toast_template')").remove();
         $(".kiosk-wrap").append($toastInstance);
         $toastInstance.velocity({
             opacity:1

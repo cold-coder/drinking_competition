@@ -272,6 +272,16 @@ html, body {
     cursor: pointer;
 }
 
+.step6 .btn_close {
+    position: absolute;
+    width: 200px;
+    height: 85px;
+    left: 50%;
+    top: 56%;
+    margin-left: -100px;
+    border-radius: 45px;
+}
+
 .result_lose {
     background-image: url('../img/lose.jpg');
 }
