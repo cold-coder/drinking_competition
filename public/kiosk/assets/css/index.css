@@ -354,47 +354,48 @@ section[class^="step"] {
   }
 }
 
-.role_left_win {
-  background: url('../img/left_role_win.png') no-repeat;
-}
+    .role_right_win {
+      background: url('../img/right_role_win.png') no-repeat;
+    }
+
+
+    .role_left_win {
+      -webkit-animation-name: k-left-role-win;
+              animation-name: k-left-role-win;
+      -webkit-animation-duration: 1s;
+              animation-duration: 1s;
+      -webkit-animation-iteration-count: infinite;
+              animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+              animation-timing-function: linear;
+    }
+
+    @-webkit-keyframes k-left-role-win{
+      from {
+          background: url('../img/left_role_win_1.png') no-repeat;
+          top: 180px;
+      }
+      to {
+        background: url('../img/left_role_win_2.png') no-repeat;
+        background-size: cover;
+        top: 210px;
+      }  
+    }
+
+    @keyframes k-left-role-win{
+      from {
+          background: url('../img/left_role_win_1.png') no-repeat;
+          top: 180px;
+      }
+      to {
+        background: url('../img/left_role_win_2.png') no-repeat;
+        background-size: cover;
+        top: 210px;
+      }  
+    }
 
 .role_left_lose {
   background: url('../img/left_role_lose.png') no-repeat;
-}
-
-.role_right_win {
-  -webkit-animation-name: k-right-role-win;
-          animation-name: k-right-role-win;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
-}
-
-@-webkit-keyframes k-right-role-win{
-  from {
-      background: url('../img/right_role_win_1.png') no-repeat;
-      top: 180px;
-  }
-  to {
-    background: url('../img/right_role_win_2.png') no-repeat;
-    background-size: cover;
-    top: 210px;
-  }  
-}
-
-@keyframes k-right-role-win{
-  from {
-      background: url('../img/right_role_win_1.png') no-repeat;
-      top: 180px;
-  }
-  to {
-    background: url('../img/right_role_win_2.png') no-repeat;
-    background-size: cover;
-    top: 210px;
-  }  
 }
 
 .role_right_lose {
@@ -432,16 +433,16 @@ section[class^="step"] {
 .role_left {
   position: absolute;
   top: 205px;
-  left: 170px;
-  width:271px;
-  height: 505px;
+  left: 105px;
+  width:420px;
+  height: 490px;
 }
 .role_right {
   position: absolute;
   top: 205px;
-  right: 115px;
-  width:420px;
-  height: 490px;
+  right: 200px;
+  width:271px;
+  height: 505px;
 }
 
 .score {

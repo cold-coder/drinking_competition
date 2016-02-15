@@ -45,7 +45,7 @@
         }
 
 
-    .hand {
+.hand {
       position: fixed;
       background-image: url('./assets/img/shake_hand.png');
       background-size: contain;
@@ -55,20 +55,41 @@
       margin-left: -75px;
       width: 150px;
       height: 150px;
-      animation-name: shake;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease;
-      animation-duration: .5s;
+      -webkit-animation-name: shake;
+              animation-name: shake;
+      -webkit-animation-iteration-count: infinite;
+              animation-iteration-count: infinite;
+      -webkit-animation-timing-function: ease;
+              animation-timing-function: ease;
+      -webkit-animation-duration: .5s;
+              animation-duration: .5s;
     }
-        @keyframes shake {
+        @-webkit-keyframes shake {
             0% {
-                transform: rotate(-30deg);
+                -webkit-transform: rotate(-30deg);
+                        transform: rotate(-30deg);
             }
             50% {
-                transform: rotate(30deg);
+                -webkit-transform: rotate(30deg);
+                        transform: rotate(30deg);
             }
             100% {
-                transform: rotate(-30deg);
+                -webkit-transform: rotate(-30deg);
+                        transform: rotate(-30deg);
+            }
+        }
+        @keyframes shake {
+            0% {
+                -webkit-transform: rotate(-30deg);
+                        transform: rotate(-30deg);
+            }
+            50% {
+                -webkit-transform: rotate(30deg);
+                        transform: rotate(30deg);
+            }
+            100% {
+                -webkit-transform: rotate(-30deg);
+                        transform: rotate(-30deg);
             }
         }
 
@@ -77,17 +98,28 @@
         background-image: url('./assets/img/circle_avatar.png');
         background-size: contain;
         background-repeat: no-repeat;
-        bottom: 10%;
+        bottom: 5%;
         left: 5%;
         width: 120px;
         height: 120px;
         text-align: center;
+        z-index: 10;
       }
 
       .step_in_game .avatar img {
         width: 90px;
         height: 90px;
         margin-top: 20px;
+      }
+
+      .step_in_game .tip {
+        position: absolute;
+        background: url("./assets/img/tip.png") no-repeat;
+        width: 80%;
+        height: 15%;
+        left: 18%;
+        bottom: 5%;
+        background-size: contain;
       }
     </style>
   </head>
@@ -98,6 +130,7 @@
       </div>
       <div class="hand"></div>
       <div class="avatar"><img src="./assets/img/role_2.png"></div>
+      <div class="tip"></div>
     </section>
     <script src="assets/vendor/jquery.js"></script>
 	<script>

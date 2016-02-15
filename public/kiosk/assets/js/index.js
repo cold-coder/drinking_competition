@@ -10,6 +10,7 @@ $(document).ready(function(){
     var playScore;
     var TOTALSCORE = 100000;
 
+
     var socket = io(config.gameWS, { query:"role=judge"});
     socket.on("regist", function(players){
     	if(players.playersList.length ==1) {
@@ -21,7 +22,7 @@ $(document).ready(function(){
             $(".step2 .nickname_txt_left").text(players.playersList[0].fullName);
             $(".step2 .avatar_right").css("background-image", "url('./assets/img/qr_code.jpg')");
             $(".step2 .nickname_txt_right").text("扫码加入游戏");
-    		console.log(players.playersList[0].fullName + " has enter the room, waiting another competitor");
+    		console.log(players.playersList[0].fullName + " has enter the room, waiting another player");
     	} else if (players.playersList.length == 2) {
             showToast(players.playersList[1].headPortrait, "ENTER", players.playersList[1].fullName);
             console.log("2 players, they are " + players.playersList[0].fullName + " and " + players.playersList[1].fullName)
@@ -93,7 +94,7 @@ $(document).ready(function(){
     })
 
     socket.on("refresh", function(){
-    	location.reload();
+    	$(".step1").show();
     });
 
     $(".btn_refresh").on("click", function(){
@@ -108,16 +109,16 @@ $(document).ready(function(){
 
 
     function updateScore(score) {
-        var score_left = score[onlinePlayers[1].id];
-        var score_right = score[onlinePlayers[0].id];
+        var score_left = score[onlinePlayers[0].id];
+        var score_right = score[onlinePlayers[1].id];
         if(score_left > TOTALSCORE){
             drinkUp($(".beer_left_6"));
-            socket.emit("gameover",{winnerId:onlinePlayers[1].id});
+            socket.emit("gameover",{winnerId:onlinePlayers[0].id});
             return;
         }
         if(score_right > TOTALSCORE){
             drinkUp($(".beer_right_6"));
-            socket.emit("gameover",{winnerId:onlinePlayers[0].id});
+            socket.emit("gameover",{winnerId:onlinePlayers[1].id});
             return;
         }
         clearBeerCup(score_left, "left");
@@ -167,8 +168,8 @@ $(document).ready(function(){
         $(".step2").hide();
         $(".step3").hide();
         $(".step4").show();
-        $(".step4 .avatar_left").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
-        $(".step4 .avatar_right").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
+        $(".step4 .avatar_left").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
+        $(".step4 .avatar_right").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
         $(".role_left").addClass("role_left_ingame");
         $(".role_right").addClass("role_right_ingame"); 
     });
@@ -176,14 +177,14 @@ $(document).ready(function(){
     socket.on("gameover", function(winner){
         var winnerSide = "";
         var loseSide = "";
-        if(winner.winnerId == onlinePlayers[1].id) {
+        if(winner.winnerId == onlinePlayers[0].id) {
             winnerSide = "left";
             loseSide = "right";
-            $(".reward .avatar_winner").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
-            $(".reward .nickname_winner_txt").text(onlinePlayers[1].fullName);
-        } else if (winner.winnerId == onlinePlayers[0].id) {
             $(".reward .avatar_winner").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
             $(".reward .nickname_winner_txt").text(onlinePlayers[0].fullName);
+        } else if (winner.winnerId == onlinePlayers[1].id) {
+            $(".reward .avatar_winner").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
+            $(".reward .nickname_winner_txt").text(onlinePlayers[1].fullName);
             winnerSide = "right";
             loseSide = "left";
         }

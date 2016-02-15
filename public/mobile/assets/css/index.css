@@ -230,17 +230,28 @@ html, body {
   background-image: url('../img/circle_avatar.png');
   background-size: contain;
   background-repeat: no-repeat;
-  bottom: 10%;
+  bottom: 5%;
   left: 5%;
   width: 100px;
   height: 100px;
   text-align: center;
+  z-index: 10;
 }
 
 .in-game .avatar img {
     width: 70px;
     height: 70px;
     margin-top: 16px;
+}
+
+.in-game .tip {
+  position: absolute;
+  background: url("../img/tip.png") no-repeat;
+  background-size: contain;
+  width: 80%;
+  height: 15%;
+  left: 18%;
+  bottom: 5%;
 }
 /*result*/
 .result_win {

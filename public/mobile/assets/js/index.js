@@ -250,6 +250,7 @@ $(document).ready(function(){
     	$(".step4").show();
 
     	//show respective avatar
+
     	var imgSrc;
     	if(players.playersList[1].id === userInfo.id) {
     		imgSrc = "./assets/img/role_1.png";
