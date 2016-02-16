@@ -9,20 +9,56 @@ $(document).ready(function(){
     var onlinePlayers = []; //[{id:"f29e3ef1", headPortrait:"./img/fe.png", fullName:"tom"},{id:"i9oi8hhikj", headPortrait:"./img/ed.png", fullName:"jerry"}]
     var playScore;
     var TOTALSCORE = 100000;
-
+    var GameStatus = {
+        WAITING:"WAITING",
+        PLAYING:"PLAYING",
+        REWARDING:"REWARDING"
+    }
+    var currentStatus = GameStatus.WAITING;
 
     var socket = io(config.gameWS, { query:"role=judge"});
-    socket.on("sync", function(players){
-        console.log(players);
-    	if(players.length == 1) {
-    		$(".step1").hide();
+
+    socket.on("sync", syncPlayer);
+
+    socket.on("start", startGame);
+
+    socket.on("score", updateScore);
+
+    socket.on("gameover", reward);
+
+
+    socket.on("enter", function(player){
+        showToast(player.headPortrait, "ENTER", player.fullName);
+    })
+
+    socket.on("exit", function(player){
+        showToast(player.headPortrait, "EXIT", player.fullName);
+    })
+
+    $(".btn_refresh").on("click", function(){
+        location.reload();
+    });
+
+
+    function syncPlayer(players){
+        // console.log(players);
+        console.log(currentStatus);
+        
+        //special handle for player abort during playing
+        if(currentStatus === GameStatus.PLAYING && players.length == 1){
+            socket.emit("gameover",{winnerId:players[0].id});
+            return;
+        }
+
+        if(players.length == 1) {
+            $(".step1").hide();
             $(".step2").show();
             $(".step2 .avatar_left").css("background-image", "url(" + players[0].headPortrait + ")");
             $(".step2 .nickname_txt_left").text(players[0].fullName);
             $(".step2 .avatar_right").css("background-image", "url('./assets/img/qr_code.jpg')");
             $(".step2 .nickname_txt_right").text("扫码加入游戏");
-    		console.log(players[0].fullName + " has enter the room, waiting another player");
-    	} else if (players.length == 2) {
+            console.log(players[0].fullName + " has enter the room, waiting another player");
+        } else if (players.length == 2) {
             console.log("2 players, they are " + players[0].fullName + " and " + players[1].fullName)
             $(".step2 .avatar_right").css("background-image", "url(" + players[1].headPortrait + ")");
             $(".step2 .nickname_txt_right").text(players[1].fullName);
@@ -86,30 +122,23 @@ $(document).ready(function(){
             setTimeout(function(){
                 socket.emit("start");
             }, 8000)
-    	} else if (players.length == 0) {
+        } else if (players.length === 0) {
             //both exit, then show login page
-    		$(".step1").show();
-    	}
-    });
+            location.reload();
+        }
+    }
 
-    socket.on("enter", function(player){
-        showToast(player.headPortrait, "ENTER", player.fullName);
-    })
-
-    socket.on("exit", function(player){
-        showToast(player.headPortrait, "EXIT", player.fullName);
-    })
-
-    $(".btn_refresh").on("click", function(){
-        location.reload();
-    });
-
-    socket.on("score", function(score) {
-        //{"tom": 12323487, "jerry": 52343432}
-        playScore = score;
-        updateScore(playScore)
-    })
-
+    function startGame(){
+        console.log("Game starts");
+        currentStatus = GameStatus.PLAYING;
+        $(".step2").hide();
+        $(".step3").hide();
+        $(".step4").show();
+        $(".step4 .avatar_left").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
+        $(".step4 .avatar_right").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
+        $(".role_left").addClass("role_left_ingame");
+        $(".role_right").addClass("role_right_ingame"); 
+    }
 
     function updateScore(score) {
         var score_left = score[onlinePlayers[0].id];
@@ -166,18 +195,9 @@ $(document).ready(function(){
         }
     }
 
-    socket.on("start", function(){
-        console.log("Game starts");
-        $(".step2").hide();
-        $(".step3").hide();
-        $(".step4").show();
-        $(".step4 .avatar_left").css("background-image", "url(" + onlinePlayers[0].headPortrait + ")");
-        $(".step4 .avatar_right").css("background-image", "url(" + onlinePlayers[1].headPortrait + ")");
-        $(".role_left").addClass("role_left_ingame");
-        $(".role_right").addClass("role_right_ingame"); 
-    });
 
-    socket.on("gameover", function(winner){
+    function reward(winner){
+        currentStatus = GameStatus.REWARDING;
         var winnerSide = "";
         var loseSide = "";
         if(winner.winnerId == onlinePlayers[0].id) {
@@ -203,7 +223,7 @@ $(document).ready(function(){
             $(".step4").hide();
             $(".step5").show();
         }, 4000);
-    })
+    }
 
     /*
     param:

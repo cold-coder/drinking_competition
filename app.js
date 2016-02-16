@@ -13,36 +13,6 @@ var score = {};
 
 //game ws server
 
-//judge Enter when the Kiosk display the page of /kiosk/index.html
-// io.use(function (socket, next) {
-// 	// console.log(socket.handshake.query);
-
-// 	if (socket.handshake.query.role === "judge") {
-// 		onlinePlayers.length = 0;
-// 		console.log("judge enter the room");
-// 		hasJudge = true;
-// 		socket.on("disconnect", function () {
-// 			hasJudge = false;
-// 			console.log("judge leave the room");
-// 		});
-// 	} else if (socket.handshake.query.role === "competitor") {
-// 		socket.on("disconnect", function () {
-// 			onlinePlayers.splice(onlinePlayers.indexOf(socket), 1);
-// 			console.log(socket.handshake.query.id + "leave the room");
-// 			// io.emit("regist", {playersList:onlinePlayers});
-// 		});
-
-// 		if(onlinePlayers.length <= 1) {
-// 				onlinePlayers.push(socket.handshake.query);
-// 				score[socket.handshake.query.id] = 0;
-// 				console.log("current players " + onlinePlayers.length);
-// 		} else {
-// 				socket.emit("room full");
-// 		}
-// 	}
-// 	return next();
-// })
-
 
 var handleClient = function(socket) {
 
@@ -53,7 +23,7 @@ var handleClient = function(socket) {
 				onlinePlayers.push(player);
 				score[player.id] = 0;
 
-				console.log("current players " + onlinePlayers.length);
+				console.log(onlinePlayers.length + " players ==> " + onlinePlayers[0].id + (onlinePlayers.length===2 ? " | " + onlinePlayers[1].id + "." : "."));
 
 				io.emit("enter", player);
 				io.emit("sync", onlinePlayers);
@@ -63,13 +33,16 @@ var handleClient = function(socket) {
 		}
 
 		socket.on("disconnect", function () {
-			onlinePlayers.forEach(function(player, i){
-				if(player["id"] === player.id) {
+			var player = socket.handshake.query;
+
+			onlinePlayers.forEach(function(currPlayer, i){
+				if(currPlayer["id"] === player.id) {
 					onlinePlayers.splice(i, 1);
 				}
 			});
 
 			console.log(player.id + " leave the room");
+
 
 			io.emit("exit", player);
 			io.emit("sync", onlinePlayers);
@@ -80,6 +53,7 @@ var handleClient = function(socket) {
 		//     s.disconnect(true);
 		// });
 
+		// console.log(Object.keys(io.sockets.sockets));
 
 		onlinePlayers.length = 0;
 		console.log("judge enter the room");

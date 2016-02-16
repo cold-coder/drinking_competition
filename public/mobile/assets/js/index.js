@@ -15,32 +15,32 @@ $(document).ready(function(){
 	var socket;
 
 
-//WeChat JSSDK
-var json = {
-    WeChatID: config.accountId,
-    Url: "http://srdemo.smartac.co:8080/game/mobile/index.html"
-};
+	//WeChat JSSDK  for hiding some menu options and close window
+	var json = {
+	    WeChatID: config.accountId,
+	    Url: "http://srdemo.smartac.co:8080/game/mobile/index.html"
+	};
 
-$.post(config.srapiurl+"weiapp/GetJsJDKConfig", json, function (data) {
-    wx.config({
-        debug: false,
-        appId: data.ResultValue.appid,
-        timestamp: data.ResultValue.timestamp,
-        nonceStr: data.ResultValue.nonceStr,
-        signature: data.ResultValue.signature,
-        jsApiList: ["hideOptionMenu","closeWindow"]
-    });
-    //隐藏掉右上角菜单
-    wx.ready(function () {
-        wx.hideOptionMenu();
+	$.post(config.srapiurl+"weiapp/GetJsJDKConfig", json, function (data) {
+	    wx.config({
+	        debug: false,
+	        appId: data.ResultValue.appid,
+	        timestamp: data.ResultValue.timestamp,
+	        nonceStr: data.ResultValue.nonceStr,
+	        signature: data.ResultValue.signature,
+	        jsApiList: ["hideOptionMenu","closeWindow"]
+	    });
+	    //隐藏掉右上角菜单
+	    wx.ready(function () {
+	        wx.hideOptionMenu();
 
-        $(".btn_close").on("click", function(){
-        	wx.closeWindow();
-        })
-    })
-})
+	        $(".btn_close").on("click", function(){
+	        	wx.closeWindow();
+	        })
+	    })
+	})
 
-
+	//check if player is follower of demowifi
 	if(!isFollower()){
 	    //alert('请先关注我们的公众号后，重新扫码！');
 	    window.location.href='login.html';
@@ -97,15 +97,15 @@ $.post(config.srapiurl+"weiapp/GetJsJDKConfig", json, function (data) {
 	    		userInfo["headPortrait"] = data.HeadPortrait;
 	    		userInfo["fullName"] = data.FullName;
 	    		userInfo["id"] = data.FullName+"_"+(new Date()).getTime().toString().slice(-5);
-				// socket.emit("regist", userInfo);
 				userInfo["role"] = "competitor";
+
 				socket = io(config.gameWS, { query:userInfo});
 				bindSockEvents(socket);
 	    	} else {
 	    		console.log("Cannot retrive user info from SR.");
 	    	}
 	    }).fail( function (error) {
-	    	console.log("SR API Internal Error.")
+	    	console.error("SR API Internal Error.")
 	    });
 	} else {
 		alert("can not get openid!");
@@ -171,7 +171,14 @@ $.post(config.srapiurl+"weiapp/GetJsJDKConfig", json, function (data) {
 		})
 
 		//players is an array
-		socket.on("sync",  function(players){
+		socket.on("sync", syncPlayer);
+
+	    socket.on("start", startGame);
+
+		socket.on("gameover", rewardWinner);
+	}
+
+	function syncPlayer(players){
 	    	if(players.length ==1) {
 	    		//fisrt player enter
 	    		$(".role2_waiting").hide();
@@ -265,16 +272,14 @@ $.post(config.srapiurl+"weiapp/GetJsJDKConfig", json, function (data) {
 						})
 	    		},5000);
 	    	}
-	    })
+	    }
 
-
-	    socket.on("start", function(players){
+	    function startGame(players){
 	    	console.log("Game starts")
 	    	$(".step3").hide();
 	    	$(".step4").show();
 
-	    	//show respective avatar
-
+	    	//avatar to indicate player's role
 	    	var imgSrc;
 	    	if(players.playersList[1].id === userInfo.id) {
 	    		imgSrc = "./assets/img/role_1.png";
@@ -293,17 +298,18 @@ $.post(config.srapiurl+"weiapp/GetJsJDKConfig", json, function (data) {
 	    		loop: true
 	    	});
 
-			//turn on event listen for device motion
+			//listen shake event
 			if (window.DeviceMotionEvent) {
 			    window.addEventListener('devicemotion', deviceMotionHandler, false);
 			} else {
 			    alert('您的手机不支持此游戏，换个新的吧~');
 			}
-		});
+		}
 
-		socket.on("gameover", function(winner){
-			//remove event listener
+	function rewardWinner(winner){
+			//remove shake listener
 			window.removeEventListener('devicemotion', deviceMotionHandler, false);
+
 			if(winner.winnerId === userInfo.id){
 				//current player win
 				$(".step4").hide();
@@ -314,10 +320,7 @@ $.post(config.srapiurl+"weiapp/GetJsJDKConfig", json, function (data) {
 				$(".step5").hide();
 				$(".result_lose").show();
 			}
-		})
-	}
-
-
+		}
 
 
 })
