@@ -272,6 +272,43 @@ html, body {
     cursor: pointer;
 }
 
+.step5 .banner {
+  position: absolute;
+  width: 234px;
+  height: 90px;
+  left: 50%;
+  margin-left: -117px;
+  top: 50%;
+  margin-top: -45px;
+  z-index: 110;
+}
+
+.step5 .banner_success {
+  background: url('../img/coupon_success.png') no-repeat;
+  background-size: contain;
+}
+
+.step5 .btn_close {
+  position: absolute;
+  width: 38px;
+  height:39px;
+  top: 35%;
+  right: 10%;
+  background: url("../img/icon_x.png") no-repeat;
+  display: none;
+  z-index: 110;
+}
+
+.step6 .btn_close {
+    position: absolute;
+    width: 200px;
+    height: 85px;
+    left: 50%;
+    top: 56%;
+    margin-left: -100px;
+    border-radius: 45px;
+}
+
 .result_lose {
     background-image: url('../img/lose.jpg');
 }

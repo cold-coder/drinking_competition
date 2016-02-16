@@ -13,9 +13,48 @@ var score = {};
 
 //game ws server
 
-//judge Enter when the Kiosk display the page of /kiosk/index.html
-io.use(function (socket, next) {
-	if (socket.handshake.query.role === "judge") {
+
+var handleClient = function(socket) {
+
+	//on connection
+	if (socket.handshake.query.role === "competitor") {
+		var player = socket.handshake.query;
+		if(onlinePlayers.length <= 1) {
+				onlinePlayers.push(player);
+				score[player.id] = 0;
+
+				console.log(onlinePlayers.length + " players ==> " + onlinePlayers[0].id + (onlinePlayers.length===2 ? " | " + onlinePlayers[1].id + "." : "."));
+
+				io.emit("enter", player);
+				io.emit("sync", onlinePlayers);
+		} else {
+				socket.emit("room full");
+				return;
+		}
+
+		socket.on("disconnect", function () {
+			var player = socket.handshake.query;
+
+			onlinePlayers.forEach(function(currPlayer, i){
+				if(currPlayer["id"] === player.id) {
+					onlinePlayers.splice(i, 1);
+				}
+			});
+
+			console.log(player.id + " leave the room");
+
+
+			io.emit("exit", player);
+			io.emit("sync", onlinePlayers);
+		});
+	} else if (socket.handshake.query.role === "judge") {
+		//disconnect all clients when kiosk refreshs
+		// io.sockets.sockets.forEach(function(s) {
+		//     s.disconnect(true);
+		// });
+
+		// console.log(Object.keys(io.sockets.sockets));
+
 		onlinePlayers.length = 0;
 		console.log("judge enter the room");
 		hasJudge = true;
@@ -23,37 +62,11 @@ io.use(function (socket, next) {
 			hasJudge = false;
 			console.log("judge leave the room");
 		});
-	} else if (socket.handshake.query.role === "competitor") {
-		socket.on("disconnect", function () {
-			// onlineUserCount = 0;
-			onlinePlayers.length = 0;
-			//need client re-regist when anyone quit
-			io.emit("refresh");
-			console.log("some competitor quit!!! force refresh!");
-		});
-	}
-	return next();
-})
+	} 
 
-var regist = function(socket) {
-	socket.on("regist", function (userInfo) {
-		// onlineUserCount++;
-		console.log("Regist User -> " + userInfo.id);
-		// console.log("competitor enter the room, current competitor count " + onlineUserCount);
-		if(onlinePlayers.length <= 1) {
-			onlinePlayers.push(userInfo);
-			score[userInfo.id] = 0;
-			console.log("current players " + onlinePlayers.length);
-			io.emit("regist", {playersList:onlinePlayers}); 
-		} else {
-			socket.emit("room full");
-		}
-	})
-}
 
-var handleClient = function(socket) {
 
-	regist(socket);
+
 
 	socket.on("start", function(){
 		console.log("Game starts");
@@ -75,9 +88,9 @@ var handleClient = function(socket) {
 		io.emit("score", score);
 	})
 
-	socket.on("disconnect", function (param1) {
-		console.log("user disconnected, param1 -> " + param1);
-	});
+	// socket.on("disconnect", function (param1) {
+	// 	console.log("user disconnected, param1 -> " + param1);
+	// });
 }
 
 io.on("connection", handleClient);
