@@ -43,10 +43,15 @@ $(document).ready(function(){
     function syncPlayer(players){
         // console.log(players);
         console.log(currentStatus);
-        
+
         //special handle for player abort during playing
         if(currentStatus === GameStatus.PLAYING && players.length == 1){
             socket.emit("gameover",{winnerId:players[0].id});
+            return;
+        }
+
+        //special handle for lose player quit, still showing winner page
+        if(currentStatus === GameStatus.REWARDING && players.length == 1){
             return;
         }
 

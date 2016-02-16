@@ -1,5 +1,11 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font: 13px Helvetica, Arial; }
+body { 
+  font-size: 13px; 
+  font-family: Georgia, "Times New Roman", 
+             "Microsoft YaHei", "微软雅黑", 
+             STXihei, "华文细黑", 
+             serif;
+}
 
 .kiosk-wrap {
   position: relative;
@@ -141,70 +147,6 @@ section[class^="step"] {
 .countdown_go {
     background: url('../img/cd_go.png') no-repeat;
 }
-
-/*@-webkit-keyframes countdown {
-    0% {
-        background-image: url('../img/countdown3.jpg');
-    }
-    24.9% {
-        background-image: url('../img/countdown3.jpg');
-    }
-    25% {
-        background-image: url('../img/countdown2.jpg');
-    }
-    49.9% {
-        background-image: url('../img/countdown2.jpg');
-    }
-    50% {
-        background-image: url('../img/countdown1.jpg');
-    }
-    74.9% {
-        background-image: url('../img/countdown1.jpg');
-    }
-    75% {
-        background-image: url('../img/countdown_go.jpg');
-    }
-    100% {
-        background-image: url('../img/countdown_go.jpg');
-    }
-}
-@keyframes countdown {
-    0% {
-        background-image: url('../img/countdown3.jpg');
-    }
-    24.9% {
-        background-image: url('../img/countdown3.jpg');
-    }
-    25% {
-        background-image: url('../img/countdown2.jpg');
-    }
-    49.9% {
-        background-image: url('../img/countdown2.jpg');
-    }
-    50% {
-        background-image: url('../img/countdown1.jpg');
-    }
-    74.9% {
-        background-image: url('../img/countdown1.jpg');
-    }
-    75% {
-        background-image: url('../img/countdown_go.jpg');
-    }
-    100% {
-        background-image: url('../img/countdown_go.jpg');
-    }
-}
-
-.ani-countdown {
-    -webkit-animation-name: countdown;
-            animation-name: countdown;
-    -webkit-animation-duration: 3.8s;
-            animation-duration: 3.8s;
-    -webkit-animation-timing-function: ease-out;
-            animation-timing-function: ease-out;
-    -webkit-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
-}*/
 
 /*Game Stage*/
 .stage {
@@ -590,10 +532,10 @@ div[class^="beer"] {
   position: absolute;
   width: 50%;
   height: 100px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   top: 50px;
   left: 25%;
-  border-radius: 15px;
+  border-radius: 50px;
   opacity: 0;
 }
 
@@ -612,6 +554,7 @@ div[class^="beer"] {
   margin-left: 130px;
   font-size: 40px;
   line-height: 100px;
+  color: #fff7e7;
 }
 
 .toast .info .playerName {

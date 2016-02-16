@@ -122,7 +122,10 @@ $(document).ready(function(){
 	        data: data
 	    }).done(function(data) {
 	        if (data == 1) {
-	        	alert("领取成功！");
+	        	// alert("领取成功！");
+	        	$(".mask").velocity({opacity:0.6}, {display:"block"});
+	        	$(".banner").addClass("banner_success");
+	        	$(".step5 .btn_close").velocity({opacity:1}, {display:"block"});
 	            return true;
 	        } else {
 	        	alert("领取失败！");
