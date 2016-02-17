@@ -21,7 +21,8 @@ body {
 	width: 100%;
 	height: 280px;
 	bottom: 0;
-	background-image: url('../img/ad.jpg');
+	background: url('../img/ad.png') no-repeat;
+  background-size: cover;
 }
 
 section[class^="step"] {
