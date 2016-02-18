@@ -97,10 +97,6 @@ html, body {
 	border-radius: 5px;
 }
 
-.user_name {
-
-}
-
 /* countdown */
 .countdown > div {
     position: fixed;
@@ -251,7 +247,7 @@ html, body {
     width: 200px;
     height: 85px;
     left: 50%;
-    top: 56%;
+    top: 48%;
     margin-left: -100px;
     border-radius: 45px;
 }
@@ -293,7 +289,7 @@ html, body {
     width: 200px;
     height: 85px;
     left: 50%;
-    top: 56%;
+    top: 50%;
     margin-left: -100px;
     border-radius: 45px;
 }
@@ -305,9 +301,20 @@ html, body {
 .ad {
   position: absolute;
   width: 96%;
-  height: 100px;
+  height: 17%;
   margin-left: 2%;
-  bottom: .3%;
+  bottom: 0;
   background: url('../img/ad.png') no-repeat;
   background-size: contain;
+}
+
+.step5 .btn_ad_close, .step6 .btn_ad_close {
+  position: absolute;
+  width: 15px;
+  height:15px;
+  top: 5%;
+  right: 2%;
+  background: url("../img/icon_x.png") no-repeat;
+  background-size: contain;
+  z-index: 110;
 }

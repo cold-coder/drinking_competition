@@ -98,7 +98,7 @@ $(document).ready(function(){
                   scale: 1
                 },
                 o: {
-                  duration: 500,
+                  duration: 1000,
                   easing: "linear"
                 }
               }
@@ -126,7 +126,7 @@ $(document).ready(function(){
             //wait 7 seconds for client side wait(2s) + countdown(3s) + cheers(.8s) section
             setTimeout(function(){
                 socket.emit("start");
-            }, 8000)
+            }, 7000)
         } else if (players.length === 0) {
             //both exit, then show login page
             location.reload();
@@ -267,5 +267,9 @@ $(document).ready(function(){
             easing: "ease-out"
         });
     }
+
+    $(".btn_ad_close").one("click", function(){
+        $(this).parent().hide();
+    });
 
 })

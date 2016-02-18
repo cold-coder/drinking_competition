@@ -325,5 +325,8 @@ $(document).ready(function(){
 			}
 		}
 
+	$(".btn_ad_close").one("click", function(){
+		$(this).parent().hide();
+	})
 
 })
